@@ -36,7 +36,9 @@ C:\Users\RG\Desktop\meringue\platforms\android\assets\www\fonts \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\img \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\index.html \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\player.html \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\podcasts.html \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\bootstrap-theme.css \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\bootstrap-theme.css.map \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\bootstrap-theme.min.css \
@@ -50,11 +52,13 @@ C:\Users\RG\Desktop\meringue\platforms\android\assets\www\fonts\glyphicons-halfl
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\img\logo.png \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\bootstrap.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\bootstrap.min.js \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\feed.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\index.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\meringue.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\npm.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\podcasts.js \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib\angular-route.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib\angular.min.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib\ng-cordova.min.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cordova.file \

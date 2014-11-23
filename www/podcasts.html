@@ -1,0 +1,8 @@
+<!-- Header (name of collection) -->
+<h3>My Podcasts</h3>
+<!-- Container (for list of podcasts) -->
+<ul id="podcasts" class="list-group col-xs-12">
+	<li class="podcast list-group-item"  ng-repeat="podcast in podcasts.podcasts">
+		<a href="#player/{{podcast.name}}/{{podcast.url}}">{{podcast.name}}</a>
+	</li>
+</ul>

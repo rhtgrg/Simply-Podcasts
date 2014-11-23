@@ -10,19 +10,14 @@
         <title>Meringue</title>
     </head>
     <body>
-		<div ng-app="meringue" ng-controller="PodcastsController as podcasts" class="container-fluid">
-			<!-- Header (name of collection) -->
-			<h3>My Podcasts</h3>
-			<!-- Container (for list of podcasts) -->
-			<ul id="podcasts" class="list-group col-xs-12">
-				<li class="podcast list-group-item"  ng-repeat="podcast in podcasts.podcasts">
-					{{podcast}}
-				</li>
-			</ul>
+		<div ng-app="meringue" class="container-fluid">
+			<div ng-view>
+			</div>
 		</div>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/lib/angular.min.js"></script>
+		<script type="text/javascript" src="js/lib/angular-route.js"></script>
 		<script type="text/javascript" src="js/lib/ng-cordova.min.js"></script>
 		<script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/podcasts.js"></script>
