@@ -1,8 +1,8 @@
 <div class="well">
-	{{player.podcastName}}
+	{{podcastDetails.name}}
 </div>
 <div class="well">
-	{{position}}
+	{{podcastDetails.position | time}} / {{podcastDetails.duration | time}}
 </div>
 <div class="btn-group">
 	<button type="button" class="btn btn-default">
