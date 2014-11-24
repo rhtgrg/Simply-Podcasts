@@ -5,7 +5,7 @@
 	{{podcastDetails.position | time}} / {{podcastDetails.duration | time}}
 </div>
 <div class="well">
-	<audio autoplay="autoplay" controls preload>
+	<audio ng-click="updateAudioProperties(true)" controls="controls">
 		<source src="{{podcastDetails.url | trusted}}" type="audio/mpeg" codecs="mp3">
 		Your phone does not support this!
 	</audio>

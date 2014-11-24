@@ -20,38 +20,26 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		if(typeof $scope.podcastDetails.position == undefined) {
 			$scope.podcastDetails.position = 0;
 		}
-		$scope.$apply();
-		// Everything below only happens after the device is ready (currently taken for granted since DB)
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		/* var mediaSource = $cordovaMedia.newMedia(podcastUrl);
-		var media = mediaSource.media;
-		var seekPosition = $scope.podcastDetails.position;
-		// Play the media file
-		//$cordovaMedia.play(media);
-		// Seek to the last played position
-		//$cordovaMedia.seekTo(media, seekPosition * 1000);
+		
+		$scope.updateAudioProperties = function (initialLoad) {
+			if(initialLoad) {
+				console.log("Loading audio props");
+				$('audio').load();
+			}
+			$scope.podcastDetails.duration = $('audio')[0].duration;
+			$scope.podcastDetails.position = $('audio')[0].currentTime;
+			$scope.$apply();
+		}
 		
 		// Handle the back button
 		document.addEventListener('backbutton', function() {
+			$scope.updateAudioProperties(false);
 			database.updatePodcast(podcastUrl, $scope.podcastDetails.duration, $scope.podcastDetails.position, function(){
-				$cordovaMedia.stop(media);
 				$window.history.back();
 			});
 		}, false);
 		
-		// Update the position of the music
-		$interval(function() {
-			$cordovaMedia.getCurrentPosition(media).then(function(position) {
-				// Update the duration if we don't know it
-				var duration = $cordovaMedia.getDuration(media);
-				if(duration != -1) {
-					$scope.podcastDetails.duration = duration;
-				}
-				// Update the position
-				$scope.podcastDetails.position = position;
-			});
-		}, 1000); */
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		$scope.$apply();
 	});
 })
 .filter('encoded', function() {
