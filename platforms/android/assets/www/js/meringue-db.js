@@ -14,7 +14,6 @@ angular.module('meringue')
 		},
 		initTables: function() {
 			databaseService.db.transaction(function(tx) {
-				tx.executeSql('DROP TABLE PODCASTS');
 				tx.executeSql('CREATE TABLE IF NOT EXISTS PODCASTS (url unique, name, duration, position, favorited)');
 			},
 			databaseService.errorCallback);

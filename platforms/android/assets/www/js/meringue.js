@@ -1,7 +1,7 @@
 // http://docs.phonegap.com/en/2.1.0/cordova_storage_storage.md.html#openDatabase
 // http://stackoverflow.com/questions/16286605/initialize-angularjs-service-with-asynchronous-data
 angular.module('meringue', ['ngRoute', 'ngCordova'])
-.controller('WebsourceController', function($scope, $http, database) {
+.controller('WebsourceController', function($scope, $http, $location, database) {
 	$scope.url = "";
 	$scope.submit = function() {
 		// Fetch the URL
@@ -18,7 +18,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			}
 			// Insert the data into the database
 			database.insertPodcasts(podcasts, function() {
-				console.log("Done!");
+				$location.url('/collection');
 			});
 		}). error(function() {
 			console.log("Error fetching URL");
@@ -33,7 +33,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		$scope.$apply();
 	});
 })
-.controller('PlayerController', function($scope, database, $timeout, $window, $routeParams, $cordovaMedia) {
+.controller('PlayerController', function($scope, database, $timeout, $location, $routeParams, $cordovaMedia) {
 	// Get the details of the given podcast from the database
 	var podcastUrl = decodeURIComponent($routeParams.podcastUrl);
 	database.getPodcastDetails(podcastUrl, function(podcastDetails) {
@@ -63,7 +63,8 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		document.addEventListener('backbutton', function() {
 			$scope.updateAudioProperties(false);
 			database.updatePodcast(podcastUrl, $scope.podcastDetails.duration, $scope.podcastDetails.position, function(){
-				$window.history.back();
+				$location.url('/collection');
+				$scope.$apply();
 			});
 		}, false);
 		
