@@ -1,8 +1,29 @@
 // http://docs.phonegap.com/en/2.1.0/cordova_storage_storage.md.html#openDatabase
 // http://stackoverflow.com/questions/16286605/initialize-angularjs-service-with-asynchronous-data
 angular.module('meringue', ['ngRoute', 'ngCordova'])
-.controller('WebsourceController', function(database) {
-
+.controller('WebsourceController', function($scope, $http, database) {
+	$scope.url = "";
+	$scope.submit = function() {
+		// Fetch the URL
+		$http.get($scope.url).success(function(data) {
+			var str = data;
+			var podcasts = [];
+			// Parse the podcast names and MP3 locations
+			var regex = /["]([^"]+.mp3)["]>([a-zA-Z ]+)/gi;
+			while((result = regex.exec(str))) {
+				podcasts.push({
+					name: result[2],
+					url: result[1]
+				});
+			}
+			// Insert the data into the database
+			database.insertPodcasts(podcasts, function() {
+				console.log("Done!");
+			});
+		}). error(function() {
+			console.log("Error fetching URL");
+		});
+	}
 })
 .controller('PodcastsController', function($scope, database) {
 	// TODO: Handle slashes in podcast name
@@ -12,23 +33,30 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		$scope.$apply();
 	});
 })
-.controller('PlayerController', function($scope, database, $interval, $window, $routeParams, $cordovaMedia) {
+.controller('PlayerController', function($scope, database, $timeout, $window, $routeParams, $cordovaMedia) {
 	// Get the details of the given podcast from the database
 	var podcastUrl = decodeURIComponent($routeParams.podcastUrl);
 	database.getPodcastDetails(podcastUrl, function(podcastDetails) {
 		$scope.podcastDetails = podcastDetails;
-		if(typeof $scope.podcastDetails.position == undefined) {
-			$scope.podcastDetails.position = 0;
-		}
+		var loaded = false;
 		
 		$scope.updateAudioProperties = function (initialLoad) {
-			if(initialLoad) {
+			if(initialLoad && !loaded) {
 				console.log("Loading audio props");
+				loaded = true;
 				$('audio').load();
+				$timeout(function() {
+					console.log("Seeking to " + $scope.podcastDetails.position);
+					if($scope.podcastDetails.position != null) {
+						$('audio')[0].currentTime = $scope.podcastDetails.position;
+					}
+				}, 3000);
+			} else if(loaded) {
+				if($scope.podcastDetails.duration == null)
+					$scope.podcastDetails.duration = $('audio')[0].duration;
+				$scope.podcastDetails.position = $('audio')[0].currentTime;
+				$scope.$apply();
 			}
-			$scope.podcastDetails.duration = $('audio')[0].duration;
-			$scope.podcastDetails.position = $('audio')[0].currentTime;
-			$scope.$apply();
 		}
 		
 		// Handle the back button

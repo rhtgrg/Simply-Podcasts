@@ -1,26 +1,14 @@
 <div class="well">
 	{{podcastDetails.name}}
 </div>
+<!--
 <div class="well">
 	{{podcastDetails.position | time}} / {{podcastDetails.duration | time}}
 </div>
+-->
 <div class="well">
 	<audio ng-click="updateAudioProperties(true)" controls="controls">
 		<source src="{{podcastDetails.url | trusted}}" type="audio/mpeg" codecs="mp3">
 		Your phone does not support this!
 	</audio>
-</div>
-<div class="btn-group">
-	<button type="button" class="btn btn-default">
-		<span class="glyphicon glyphicon-backward" aria-hidden="true"></span>
-	</button>
-	<button type="button" class="btn btn-default">
-		<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-	</button>
-	<button type="button" class="btn btn-default">
-		<span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
-	</button>
-	<button type="button" class="btn btn-default">
-		<span class="glyphicon glyphicon-forward" aria-hidden="true"></span>
-	</button>
 </div>

@@ -14,13 +14,17 @@ angular.module('meringue')
 		},
 		initTables: function() {
 			databaseService.db.transaction(function(tx) {
-				tx.executeSql('DROP TABLE PODCASTS');
 				tx.executeSql('CREATE TABLE IF NOT EXISTS PODCASTS (url unique, name, duration, position, favorited)');
-				tx.executeSql('INSERT INTO PODCASTS (url, name) VALUES ("http://gamedesignadvance.com/podcast/001_lantz_full_complete.mp3", "Lantz Complete")');
-				tx.executeSql('INSERT INTO PODCASTS (url, name) VALUES ("http://gamedesignadvance.com/podcast/002_anna_full_complete.mp3", "Anna Complete")');
-				tx.executeSql('INSERT INTO PODCASTS (url, name) VALUES ("http://gamedesignadvance.com/podcast/003_trefry_full_complete.mp3", "Trefry Complete")');
 			},
 			databaseService.errorCallback);
+		},
+		insertPodcasts: function(podcasts, callback) {
+			databaseService.db.transaction(function(tx) {
+				for(var i=0; i < podcasts.length; i++) {
+					tx.executeSql('INSERT INTO PODCASTS (url, name) VALUES ("'+podcasts[i].url+'", "'+podcasts[i].name+'")');
+				}
+			},
+			databaseService.errorCallback, callback);
 		},
 		getPodcasts: function(callback) {
 			databaseService.db.transaction(function(tx) {
@@ -35,6 +39,7 @@ angular.module('meringue')
 							position: results.rows.item(i).position
 						});
 					}
+					window.p = podcasts;
 					callback(podcasts);
 				}, databaseService.errorCallback);
 			}, databaseService.errorCallback);
