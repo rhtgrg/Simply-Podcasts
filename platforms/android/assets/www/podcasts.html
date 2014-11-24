@@ -3,7 +3,7 @@
 <!-- Container (for list of podcasts) -->
 <ul id="podcasts" class="list-group col-xs-12">
 	<li class="podcast list-group-item"  ng-repeat="podcast in podcasts">
-		<span class="badge">{{podcast.position | time}}</span>
+		<span class="badge">{{(podcast.position / podcast.duration) * 100 | percent}}</span>
 		<a href="#player/{{podcast.url | encoded}}">{{podcast.name}}</a>
 	</li>
 </ul>

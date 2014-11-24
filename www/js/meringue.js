@@ -15,15 +15,21 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 .controller('PlayerController', function($scope, database, $interval, $window, $routeParams, $cordovaMedia) {
 	// Get the details of the given podcast from the database
 	var podcastUrl = decodeURIComponent($routeParams.podcastUrl);
-	console.log(podcastUrl);
 	database.getPodcastDetails(podcastUrl, function(podcastDetails) {
 		$scope.podcastDetails = podcastDetails;
+		if(typeof $scope.podcastDetails.position == undefined) {
+			$scope.podcastDetails.position = 0;
+		}
+		$scope.$apply();
 		// Everything below only happens after the device is ready (currently taken for granted since DB)
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// Begin playing the media file immediately
-		var mediaSource = $cordovaMedia.newMedia(podcastUrl);
-		var media = mediaSource.media
-		$cordovaMedia.play(media);
+		/* var mediaSource = $cordovaMedia.newMedia(podcastUrl);
+		var media = mediaSource.media;
+		var seekPosition = $scope.podcastDetails.position;
+		// Play the media file
+		//$cordovaMedia.play(media);
+		// Seek to the last played position
+		//$cordovaMedia.seekTo(media, seekPosition * 1000);
 		
 		// Handle the back button
 		document.addEventListener('backbutton', function() {
@@ -44,7 +50,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 				// Update the position
 				$scope.podcastDetails.position = position;
 			});
-		}, 1000);
+		}, 1000); */
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	});
 })
@@ -67,9 +73,14 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 })
 .filter('percent', function() {
 	return function formatPercent(value) {
-		return value + "%";
+		return Math.floor(value) + "%";
 	};
 })
+.filter('trusted', ['$sce', function ($sce) {
+	return function(url) {
+		return $sce.trustAsResourceUrl(url);
+	};
+}])
 .config(function($routeProvider) {
 	$routeProvider
 		.when('/', {

@@ -60,11 +60,7 @@ angular.module('meringue')
 			databaseService.db.transaction(function(tx) {
 				tx.executeSql('UPDATE PODCASTS SET duration = ?, position = ? WHERE url = ?', [duration, position, podcastUrl]);
 			},
-			databaseService.errorCallback,
-			function successCB () {
-				console.log("hia");
-				callback();
-			});
+			databaseService.errorCallback, callback);
 		}
 	};
 	

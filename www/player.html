@@ -4,6 +4,12 @@
 <div class="well">
 	{{podcastDetails.position | time}} / {{podcastDetails.duration | time}}
 </div>
+<div class="well">
+	<audio autoplay="autoplay" controls preload>
+		<source src="{{podcastDetails.url | trusted}}" type="audio/mpeg" codecs="mp3">
+		Your phone does not support this!
+	</audio>
+</div>
 <div class="btn-group">
 	<button type="button" class="btn btn-default">
 		<span class="glyphicon glyphicon-backward" aria-hidden="true"></span>
