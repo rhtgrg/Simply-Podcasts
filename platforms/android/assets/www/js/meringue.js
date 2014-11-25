@@ -57,9 +57,10 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 				});
 	}
 	
+	// Returns the current download progress, or the play progress
 	$scope.getProgressValue = function(podcastDetails) {
 		if(typeof podcastDetails.downloadProgress == "undefined")
-			return "0";
+			return (podcastDetails.position/podcastDetails.duration) * 100;
 		return podcastDetails.downloadProgress;
 	}
 	
@@ -77,7 +78,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		$scope.podcastDetails = podcastDetails;
 		var loaded = false;
 		
-		$scope.updateAudioProperties = function (initialLoad) {
+/* 		$scope.updateAudioProperties = function (initialLoad) {
 			if(initialLoad && !loaded) {
 				console.log("Loading audio props");
 				loaded = true;
@@ -95,7 +96,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 				$scope.$apply();
 			}
 		}
-		
+ */		
 		$scope.podcastPlayPath = function() {
 			if(podcastDetails.filepath == null) 
 				return podcastDetails.url;
@@ -109,16 +110,22 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		// Play the media file
 		$cordovaMedia.play(media);
 		// Seek to the last played position
-		// $cordovaMedia.seekTo(media, seekPosition * 1000);
+		$cordovaMedia.seekTo(media, podcastDetails.position * 1000);
 		/** CODE **/
 		
 		// Handle the back button
 		document.addEventListener('backbutton', function() {
-			$scope.updateAudioProperties(false);
+			$cordovaMedia.getCurrentPosition(media).then(function(position) {
+				database.updatePodcastPlayPosition(podcastUrl, $cordovaMedia.getDuration(media), position, function(){
+					$location.url('/collection');
+					$scope.$apply();
+				});
+			});
+/* 			$scope.updateAudioProperties(false);
 			database.updatePodcastPlayPosition(podcastUrl, $scope.podcastDetails.duration, $scope.podcastDetails.position, function(){
 				$location.url('/collection');
 				$scope.$apply();
-			});
+			}); */
 		}, false);
 		
 		$scope.$apply();
