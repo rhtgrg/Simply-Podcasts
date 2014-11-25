@@ -46,6 +46,8 @@ C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\bootstrap-theme.mi
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\bootstrap.css \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\bootstrap.css.map \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\bootstrap.min.css \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\style.css \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\style.sass \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\fonts\glyphicons-halflings-regular.eot \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\fonts\glyphicons-halflings-regular.svg \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\fonts\glyphicons-halflings-regular.ttf \
@@ -62,6 +64,7 @@ C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib\angular.min.js 
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib\bootstrap.min.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib\ng-cordova.min.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cordova.file \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cordova.file-transfer \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cordova.media \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cordova.file\www \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cordova.file\www\android \
@@ -86,6 +89,9 @@ C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cor
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cordova.file\www\requestFileSystem.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cordova.file\www\resolveLocalFileSystemURI.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cordova.file\www\android\FileSystem.js \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cordova.file-transfer\www \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cordova.file-transfer\www\FileTransfer.js \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cordova.file-transfer\www\FileTransferError.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cordova.media\www \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cordova.media\www\Media.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cordova.media\www\MediaError.js \

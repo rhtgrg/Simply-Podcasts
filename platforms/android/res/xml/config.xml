@@ -8,9 +8,12 @@
     <feature name="Media">
         <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
     </feature>
-    <name>HelloCordova</name>
+    <feature name="FileTransfer">
+        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
+    </feature>
+    <name>Meringue</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        An app for subscribing to and managing podcasts or other audio.
     </description>
     <author email="dev@cordova.apache.org" href="http://cordova.io">
         Apache Cordova Team

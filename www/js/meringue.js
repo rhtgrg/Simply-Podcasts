@@ -2,7 +2,7 @@
 // http://stackoverflow.com/questions/16286605/initialize-angularjs-service-with-asynchronous-data
 angular.module('meringue', ['ngRoute', 'ngCordova'])
 .controller('WebsourceController', function($scope, $http, $location, database) {
-	$scope.url = "";
+	$scope.url = "http://gamedesignadvance.com/?page_id=1616";
 	$scope.submit = function() {
 		// Fetch the URL
 		$http.get($scope.url).success(function(data) {
@@ -25,13 +25,50 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		});
 	}
 })
-.controller('PodcastsController', function($scope, database) {
-	// TODO: Handle slashes in podcast name
+.controller('PodcastsController', function($scope, $cordovaFile, database) {
 	// Get data from database
 	database.getPodcasts(function(podcasts) {
 		$scope.podcasts = podcasts;
 		$scope.$apply();
 	});
+	
+	// Function to download a file given the URL (currently only MP3)
+	$scope.downloadFile = function(podcastDetails) {
+		var fileUrl = podcastDetails.url;
+		var fileName = /.*[/](.+.mp3)$/.exec(fileUrl)[1];
+		var filePath = 'cdvfile://localhost/persistent/' + fileName;
+		console.log("Download started");
+		$cordovaFile
+			.downloadFile(fileUrl, filePath, true)
+			.then(function(result) {
+					console.log("File successfully downloaded, updating DB");
+					database.updatePodcastFileLocation(fileUrl, filePath, function() {
+						console.log("DB updated");
+					});
+				}, function(err) {
+					console.log("Error downloading file");
+				}, function (progress) {
+					// constant progress updates
+					if (progress.lengthComputable) {
+						var index = $scope.podcasts.indexOf(podcastDetails);
+						podcastDetails['downloadProgress'] = (progress.loaded / progress.total) * 100;
+						$scope.podcasts[index] = podcastDetails;
+					}
+				});
+	}
+	
+	$scope.getProgressValue = function(podcastDetails) {
+		if(typeof podcastDetails.downloadProgress == "undefined")
+			return "0";
+		return podcastDetails.downloadProgress;
+	}
+	
+	$scope.playLink = function(podcastDetails) {
+		if(podcastDetails.filepath == null) 
+			return "Stream";
+		else
+			return "Play";
+	}
 })
 .controller('PlayerController', function($scope, database, $timeout, $location, $routeParams, $cordovaMedia) {
 	// Get the details of the given podcast from the database
@@ -59,10 +96,26 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			}
 		}
 		
+		$scope.podcastPlayPath = function() {
+			if(podcastDetails.filepath == null) 
+				return podcastDetails.url;
+			else
+				return podcastDetails.filepath;
+		}
+		
+		/** CODE **/
+		var mediaSource = $cordovaMedia.newMedia($scope.podcastPlayPath());
+		var media = mediaSource.media;
+		// Play the media file
+		$cordovaMedia.play(media);
+		// Seek to the last played position
+		// $cordovaMedia.seekTo(media, seekPosition * 1000);
+		/** CODE **/
+		
 		// Handle the back button
 		document.addEventListener('backbutton', function() {
 			$scope.updateAudioProperties(false);
-			database.updatePodcast(podcastUrl, $scope.podcastDetails.duration, $scope.podcastDetails.position, function(){
+			database.updatePodcastPlayPosition(podcastUrl, $scope.podcastDetails.duration, $scope.podcastDetails.position, function(){
 				$location.url('/collection');
 				$scope.$apply();
 			});

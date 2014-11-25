@@ -14,7 +14,8 @@ angular.module('meringue')
 		},
 		initTables: function() {
 			databaseService.db.transaction(function(tx) {
-				tx.executeSql('CREATE TABLE IF NOT EXISTS PODCASTS (url unique, name, duration, position, favorited)');
+				//tx.executeSql('DROP TABLE PODCASTS');
+				tx.executeSql('CREATE TABLE IF NOT EXISTS PODCASTS (url unique, filepath, name, duration, position, favorited)');
 			},
 			databaseService.errorCallback);
 		},
@@ -34,6 +35,7 @@ angular.module('meringue')
 					for(var i=0; i<results.rows.length; i++) {
 						podcasts.push({
 							url: results.rows.item(i).url,
+							filepath: results.rows.item(i).filepath,
 							name: results.rows.item(i).name,
 							duration: results.rows.item(i).duration,
 							position: results.rows.item(i).position
@@ -52,6 +54,7 @@ angular.module('meringue')
 					for(var i=0; i<results.rows.length; i++) {
 						podcastDetails = {
 							url: results.rows.item(i).url,
+							filepath: results.rows.item(i).filepath,
 							name: results.rows.item(i).name,
 							duration: results.rows.item(i).duration,
 							position: results.rows.item(i).position
@@ -61,9 +64,15 @@ angular.module('meringue')
 				}, databaseService.errorCallback);
 			}, databaseService.errorCallback);		
 		},
-		updatePodcast: function(podcastUrl, duration, position, callback) {
+		updatePodcastPlayPosition: function(podcastUrl, duration, position, callback) {
 			databaseService.db.transaction(function(tx) {
 				tx.executeSql('UPDATE PODCASTS SET duration = ?, position = ? WHERE url = ?', [duration, position, podcastUrl]);
+			},
+			databaseService.errorCallback, callback);
+		},
+		updatePodcastFileLocation: function(podcastUrl, filePath, callback) {
+			databaseService.db.transaction(function(tx) {
+				tx.executeSql('UPDATE PODCASTS SET filepath = ? WHERE url = ?', [filePath, podcastUrl]);
 			},
 			databaseService.errorCallback, callback);
 		}

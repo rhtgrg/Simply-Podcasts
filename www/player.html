@@ -8,7 +8,7 @@
 -->
 <div class="well">
 	<audio ng-click="updateAudioProperties(true)" controls="controls">
-		<source src="{{podcastDetails.url | trusted}}" type="audio/mpeg" codecs="mp3">
+		<source src="{{podcastPlayPath() | trusted}}" type="audio/mpeg" codecs="mp3">
 		Your phone does not support this!
 	</audio>
 </div>
