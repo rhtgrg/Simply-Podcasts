@@ -59,8 +59,14 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	
 	// Returns the current download progress, or the play progress
 	$scope.getProgressValue = function(podcastDetails) {
-		if(typeof podcastDetails.downloadProgress == "undefined")
-			return (podcastDetails.position/podcastDetails.duration) * 100;
+		if(typeof podcastDetails.downloadProgress == "undefined") {
+			var interim = (podcastDetails.position/podcastDetails.duration) * 100;
+			if(isNaN(interim)) {
+				return 0;
+			} else {
+				return interim;
+			}
+		}
 		return podcastDetails.downloadProgress;
 	}
 	
@@ -71,32 +77,13 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			return "Play";
 	}
 })
-.controller('PlayerController', function($scope, database, $timeout, $location, $routeParams, $cordovaMedia) {
+.controller('PlayerController', function($scope, database, $interval, $location, $routeParams, $cordovaMedia) {
 	// Get the details of the given podcast from the database
 	var podcastUrl = decodeURIComponent($routeParams.podcastUrl);
 	database.getPodcastDetails(podcastUrl, function(podcastDetails) {
 		$scope.podcastDetails = podcastDetails;
 		var loaded = false;
 		
-/* 		$scope.updateAudioProperties = function (initialLoad) {
-			if(initialLoad && !loaded) {
-				console.log("Loading audio props");
-				loaded = true;
-				$('audio').load();
-				$timeout(function() {
-					console.log("Seeking to " + $scope.podcastDetails.position);
-					if($scope.podcastDetails.position != null) {
-						$('audio')[0].currentTime = $scope.podcastDetails.position;
-					}
-				}, 3000);
-			} else if(loaded) {
-				if($scope.podcastDetails.duration == null)
-					$scope.podcastDetails.duration = $('audio')[0].duration;
-				$scope.podcastDetails.position = $('audio')[0].currentTime;
-				$scope.$apply();
-			}
-		}
- */		
 		$scope.podcastPlayPath = function() {
 			if(podcastDetails.filepath == null) 
 				return podcastDetails.url;
@@ -104,28 +91,37 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 				return podcastDetails.filepath;
 		}
 		
-		/** CODE **/
 		var mediaSource = $cordovaMedia.newMedia($scope.podcastPlayPath());
 		var media = mediaSource.media;
 		// Play the media file
 		$cordovaMedia.play(media);
 		// Seek to the last played position
 		$cordovaMedia.seekTo(media, podcastDetails.position * 1000);
-		/** CODE **/
+		
+		// Initiate the slider / player
+		var $slider = $('#player').slider().on('slideStop', function() {
+			// The value of the slider is the % completion the audio is at
+			var playPosition = ($slider.slider('getValue')/100) * $cordovaMedia.getDuration(media);
+			$cordovaMedia.seekTo(media, playPosition * 1000);
+		});
+		
+		// Keep the slider updated
+		var sliderUpdater = $interval(function() {
+			$cordovaMedia.getCurrentPosition(media).then(function(position) {
+				$slider.slider('setValue', (position / $cordovaMedia.getDuration(media)) * 100);
+			});
+		}, 1000);
 		
 		// Handle the back button
 		document.addEventListener('backbutton', function() {
 			$cordovaMedia.getCurrentPosition(media).then(function(position) {
 				database.updatePodcastPlayPosition(podcastUrl, $cordovaMedia.getDuration(media), position, function(){
+					$interval.cancel(sliderUpdater);
+					$cordovaMedia.release(media);
 					$location.url('/collection');
 					$scope.$apply();
 				});
 			});
-/* 			$scope.updateAudioProperties(false);
-			database.updatePodcastPlayPosition(podcastUrl, $scope.podcastDetails.duration, $scope.podcastDetails.position, function(){
-				$location.url('/collection');
-				$scope.$apply();
-			}); */
 		}, false);
 		
 		$scope.$apply();
@@ -150,6 +146,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 })
 .filter('percent', function() {
 	return function formatPercent(value) {
+		if(isNaN(value)) return "0%";
 		return Math.floor(value) + "%";
 	};
 })
