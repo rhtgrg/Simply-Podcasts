@@ -43,6 +43,11 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		$scope.$apply();
 	});
 	
+	database.getCollection(collectionUrl, function(collection) {
+		$scope.collectionName = collection.name;
+		$scope.$apply();
+	});
+	
 	// Function to download a file given the URL (currently only MP3)
 	$scope.downloadFile = function(podcastDetails) {
 		if(podcastDetails.filepath != null) {

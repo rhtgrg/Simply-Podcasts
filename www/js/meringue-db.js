@@ -32,7 +32,6 @@ angular.module('meringue')
 		getCollections: function(callback) {
 			databaseService.db.transaction(function(tx) {
 				tx.executeSql('SELECT * FROM COLLECTIONS', [], function(tx, results) {
-					// Handle the result here - remember, this is a callback
 					var collections = [];
 					for(var i=0; i<results.rows.length; i++) {
 						collections.push({
@@ -44,10 +43,23 @@ angular.module('meringue')
 				}, databaseService.errorCallback);
 			}, databaseService.errorCallback);
 		},
+		getCollection: function(collectionUrl, callback) {
+			databaseService.db.transaction(function(tx) {
+				tx.executeSql('SELECT * FROM COLLECTIONS WHERE url = ?', [collectionUrl], function(tx, results) {
+					var collection = {};
+					for(var i=0; i<results.rows.length; i++) {
+						collection = {
+							url: results.rows.item(i).url,
+							name: results.rows.item(i).name
+						};
+					}
+					callback(collection);
+				}, databaseService.errorCallback);
+			}, databaseService.errorCallback);
+		},
 		getPodcasts: function(collectionUrl, callback) {
 			databaseService.db.transaction(function(tx) {
 				tx.executeSql('SELECT * FROM PODCASTS WHERE collection = ?', [collectionUrl], function(tx, results) {
-					// Handle the result here - remember, this is a callback
 					var podcasts = [];
 					for(var i=0; i<results.rows.length; i++) {
 						podcasts.push({
@@ -65,7 +77,6 @@ angular.module('meringue')
 		getPodcastDetails: function(podcastUrl, callback) {
 			databaseService.db.transaction(function(tx) {
 				tx.executeSql('SELECT * FROM PODCASTS WHERE url = ?', [podcastUrl], function(tx, results) {
-					// Handle the result here - remember, this is a callback
 					var podcastDetails = {};
 					for(var i=0; i<results.rows.length; i++) {
 						podcastDetails = {
