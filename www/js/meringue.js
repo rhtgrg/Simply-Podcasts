@@ -2,18 +2,20 @@
 // http://stackoverflow.com/questions/16286605/initialize-angularjs-service-with-asynchronous-data
 angular.module('meringue', ['ngRoute', 'ngCordova'])
 .controller('WebsourceController', function($scope, $http, $location, database) {
-	$scope.url = "http://gamedesignadvance.com/?page_id=1616";
+	//$scope.url = "http://gamedesignadvance.com/?page_id=1616";
+	$scope.url = "http://192.168.1.102/mp3/";
 	$scope.submit = function() {
 		// Fetch the URL
 		$http.get($scope.url).success(function(data) {
 			var str = data;
 			var podcasts = [];
 			// Parse the podcast names and MP3 locations
-			var regex = /["]([^"]+.mp3)["]>([a-zA-Z ]+)/gi;
+			// var regex = /["]([^"]+.mp3)["]>([a-zA-Z ]+)/gi;
+			var regex = /["]([^"]+.mp3)["]/gi;
 			while((result = regex.exec(str))) {
 				podcasts.push({
-					name: result[2],
-					url: result[1]
+					name: decodeURIComponent(result[1]),
+					url: "http://192.168.1.102/mp3/" + decodeURIComponent(result[1])
 				});
 			}
 			// Insert the data into the database
@@ -34,25 +36,31 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	
 	// Function to download a file given the URL (currently only MP3)
 	$scope.downloadFile = function(podcastDetails) {
+		if(podcastDetails.filepath != null) {
+			alert("Already downloaded!");
+			return;
+		}
 		var fileUrl = podcastDetails.url;
 		var fileName = /.*[/](.+.mp3)$/.exec(fileUrl)[1];
 		var filePath = 'cdvfile://localhost/persistent/' + fileName;
-		console.log("Download started");
+		console.log("Download started with URL:" + fileUrl);
 		$cordovaFile
 			.downloadFile(fileUrl, filePath, true)
 			.then(function(result) {
 					console.log("File successfully downloaded, updating DB");
 					database.updatePodcastFileLocation(fileUrl, filePath, function() {
+						podcastDetails['filepath'] = filePath;
+						$scope.podcasts[$scope.podcasts.indexOf(podcastDetails)] = podcastDetails;
 						console.log("DB updated");
 					});
 				}, function(err) {
-					console.log("Error downloading file");
+					console.log("Error downloading file: ");
+					console.log(err);
 				}, function (progress) {
 					// constant progress updates
 					if (progress.lengthComputable) {
-						var index = $scope.podcasts.indexOf(podcastDetails);
 						podcastDetails['downloadProgress'] = (progress.loaded / progress.total) * 100;
-						$scope.podcasts[index] = podcastDetails;
+						$scope.podcasts[$scope.podcasts.indexOf(podcastDetails)] = podcastDetails;
 					}
 				});
 	}
@@ -68,13 +76,6 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			}
 		}
 		return podcastDetails.downloadProgress;
-	}
-	
-	$scope.playLink = function(podcastDetails) {
-		if(podcastDetails.filepath == null) 
-			return "Stream";
-		else
-			return "Play";
 	}
 })
 .controller('PlayerController', function($scope, database, $interval, $location, $routeParams, $cordovaMedia) {
@@ -112,17 +113,20 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			});
 		}, 1000);
 		
-		// Handle the back button
-		document.addEventListener('backbutton', function() {
+		function handleBackButton() {
 			$cordovaMedia.getCurrentPosition(media).then(function(position) {
 				database.updatePodcastPlayPosition(podcastUrl, $cordovaMedia.getDuration(media), position, function(){
+					document.removeEventListener('backbutton', handleBackButton, false);
 					$interval.cancel(sliderUpdater);
 					$cordovaMedia.release(media);
 					$location.url('/collection');
 					$scope.$apply();
 				});
 			});
-		}, false);
+		}
+		
+		// Handle the back button
+		document.addEventListener('backbutton', handleBackButton, false);
 		
 		$scope.$apply();
 	});
@@ -155,6 +159,18 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		return $sce.trustAsResourceUrl(url);
 	};
 }])
+.filter('podcastFilter', function() {
+	return function(filepath, dictKey) {
+		var dict = {
+			playText: ["Stream", "Play"],
+			actionText: ["Download", "Delete"],
+			btnClass: ["btn-default", "btn-primary"]
+		}
+	
+		var index = (filepath == null) ? 0 : 1;
+		return dict[dictKey][index];
+	}
+})
 .config(function($routeProvider) {
 	$routeProvider
 		.when('/', {

@@ -54,6 +54,7 @@ C:\Users\RG\Desktop\meringue\platforms\android\assets\www\fonts\glyphicons-halfl
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\fonts\glyphicons-halflings-regular.ttf \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\fonts\glyphicons-halflings-regular.woff \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\img\logo.png \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\img\tex.png \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\feed.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\index.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib \

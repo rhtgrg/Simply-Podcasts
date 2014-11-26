@@ -23,6 +23,7 @@ angular.module('meringue')
 			databaseService.db.transaction(function(tx) {
 				for(var i=0; i < podcasts.length; i++) {
 					tx.executeSql('INSERT INTO PODCASTS (url, name) VALUES ("'+podcasts[i].url+'", "'+podcasts[i].name+'")');
+					//tx.executeSql('DELETE FROM PODCASTS WHERE url = ?', [podcasts[i].url]);
 				}
 			},
 			databaseService.errorCallback, callback);

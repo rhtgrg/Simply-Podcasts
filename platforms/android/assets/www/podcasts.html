@@ -3,11 +3,13 @@
 <!-- Container (for list of podcasts) -->
 <ul id="podcasts" class="list-group col-xs-12">
 	<li class="podcast list-group-item"  ng-repeat="podcast in podcasts">
-		<span class="badge">{{(podcast.position / podcast.duration) * 100 | percent}}</span>
-		<a href="#player/{{podcast.url | encoded}}">{{podcast.name}}</a>
+		<div class="description">
+			<span class="badge pull-right">{{(podcast.position / podcast.duration) * 100 | percent}}</span>
+			<a href="#player/{{podcast.url | encoded}}">{{podcast.name}}</a>
+		</div>
 		<div class="btn-group width-100" role="group">
-			<a class="btn btn-default col-xs-6" ng-click="downloadFile(podcast)">Download</a>
-			<a class="btn btn-default col-xs-6" href="#player/{{podcast.url | encoded}}">{{playLink(podcast)}}</a>
+			<a class="btn btn-default col-xs-6" ng-click="downloadFile(podcast)">{{podcast.filepath | podcastFilter:'actionText'}}</a>
+			<a class="btn {{podcast.filepath | podcastFilter:'btnClass'}} col-xs-6" href="#player/{{podcast.url | encoded}}">{{podcast.filepath | podcastFilter:'playText'}}</a>
 		</div>
 		<div class="progress">
 			<div class="progress-bar width-100" role="progressbar" style="width: {{getProgressValue(podcast)}}%;">
