@@ -128,7 +128,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 					document.removeEventListener('backbutton', handleBackButton, false);
 					$interval.cancel(sliderUpdater);
 					$cordovaMedia.release(media);
-					$location.url('/collection');
+					history.go(-1);
 					$scope.$apply();
 				});
 			});
