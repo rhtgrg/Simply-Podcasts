@@ -29,6 +29,7 @@ C:\Users\RG\Desktop\meringue\platforms\android\ant-build\res\drawable-port-xhdpi
 C:\Users\RG\Desktop\meringue\platforms\android\ant-build\res\drawable-xhdpi\icon.png \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\_where-is-www.txt \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\collections.html \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\cordova.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\cordova_plugins.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css \
@@ -65,6 +66,8 @@ C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib\angular-route.j
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib\angular.min.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib\bootstrap-slider.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib\bootstrap.min.js \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib\hammer.min.js \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib\jquery.min.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib\ng-cordova.min.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cordova.file \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins\org.apache.cordova.file-transfer \

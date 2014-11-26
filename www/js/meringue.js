@@ -27,9 +27,18 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		});
 	}
 })
-.controller('PodcastsController', function($scope, $cordovaFile, database) {
+.controller('CollectionsController', function($scope, $cordovaFile, database) {
 	// Get data from database
-	database.getPodcasts(function(podcasts) {
+	database.getCollections(function(collections) {
+		$scope.collections = collections;
+		$scope.$apply();
+	});
+})
+.controller('PodcastsController', function($scope, $routeParams, $cordovaFile, database) {
+	var collectionUrl = decodeURIComponent($routeParams.collectionUrl);
+
+	// Get data from database
+	database.getPodcasts(collectionUrl, function(podcasts) {
 		$scope.podcasts = podcasts;
 		$scope.$apply();
 	});
@@ -131,6 +140,15 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		$scope.$apply();
 	});
 })
+.run(function() {
+	var hammerjs = new Hammer($('body')[0]);
+	hammerjs.on('panleft', function(e) {
+		console.log("Pan left");
+	});
+	hammerjs.on('panright', function(e) {
+		console.log("Pan right");
+	});
+})
 .filter('encoded', function() {
 	return function(input) {
 		return encodeURIComponent(encodeURIComponent(input));
@@ -181,7 +199,11 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			templateUrl: 'player.html',
 			controller: 'PlayerController as player'
 		})
-		.when('/collection', {
+		.when('/collections', {
+			templateUrl: 'collections.html',
+			controller: 'CollectionsController'		
+		})
+		.when('/collection/:collectionUrl', {
 			templateUrl: 'podcasts.html',
 			controller: 'PodcastsController'
 		});

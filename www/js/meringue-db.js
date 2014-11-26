@@ -6,6 +6,7 @@ angular.module('meringue')
 			document.addEventListener("deviceready", function() {
 				databaseService.db = window.openDatabase("meringue", "1.0", "Meringue DB", 1000000);
 				databaseService.initTables();
+				window.ds = databaseService;
 				console.log("Database initialized");
 			}, false);
 		},
@@ -14,8 +15,8 @@ angular.module('meringue')
 		},
 		initTables: function() {
 			databaseService.db.transaction(function(tx) {
-				//tx.executeSql('DROP TABLE PODCASTS');
-				tx.executeSql('CREATE TABLE IF NOT EXISTS PODCASTS (url unique, filepath, name, duration, position, favorited)');
+				tx.executeSql('CREATE TABLE IF NOT EXISTS COLLECTIONS (url unique, name)');
+				tx.executeSql('CREATE TABLE IF NOT EXISTS PODCASTS (url unique, collection, filepath, name, duration, position, favorited)');
 			},
 			databaseService.errorCallback);
 		},
@@ -28,9 +29,24 @@ angular.module('meringue')
 			},
 			databaseService.errorCallback, callback);
 		},
-		getPodcasts: function(callback) {
+		getCollections: function(callback) {
 			databaseService.db.transaction(function(tx) {
-				tx.executeSql('SELECT * FROM PODCASTS', [], function(tx, results) {
+				tx.executeSql('SELECT * FROM COLLECTIONS', [], function(tx, results) {
+					// Handle the result here - remember, this is a callback
+					var collections = [];
+					for(var i=0; i<results.rows.length; i++) {
+						collections.push({
+							url: results.rows.item(i).url,
+							name: results.rows.item(i).name
+						});
+					}
+					callback(collections);
+				}, databaseService.errorCallback);
+			}, databaseService.errorCallback);
+		},
+		getPodcasts: function(collectionUrl, callback) {
+			databaseService.db.transaction(function(tx) {
+				tx.executeSql('SELECT * FROM PODCASTS WHERE collection = ?', [collectionUrl], function(tx, results) {
 					// Handle the result here - remember, this is a callback
 					var podcasts = [];
 					for(var i=0; i<results.rows.length; i++) {
@@ -42,7 +58,6 @@ angular.module('meringue')
 							position: results.rows.item(i).position
 						});
 					}
-					window.p = podcasts;
 					callback(podcasts);
 				}, databaseService.errorCallback);
 			}, databaseService.errorCallback);
