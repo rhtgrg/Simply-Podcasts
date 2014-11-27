@@ -132,8 +132,19 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		var media = mediaSource.media;
 		// Play the media file
 		$cordovaMedia.play(media);
-		// Seek to the last played position
-		$cordovaMedia.seekTo(media, podcastDetails.position * 1000);
+		
+		// There is no player callback, so improvise with an interval
+		var promise;
+		promise = $interval(function() {
+			$cordovaMedia.getCurrentPosition(media).then(function(position) {
+				if(position > 0) {
+					// Seek to the last played position
+					$cordovaMedia.seekTo(media, podcastDetails.position * 1000);
+					$interval.cancel(promise);
+					// TODO: Have a loading spinner (if streaming) and at this point hide it
+				}
+			});
+		}, 100);
 		
 		// Initiate the slider / player
 		var $slider = $('#player').slider().on('slideStop', function() {

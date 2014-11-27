@@ -2,11 +2,5 @@
 	{{podcastDetails.name}}
 </div>
 <div class="well">
-	<audio ng-click="updateAudioProperties(true)" controls="controls">
-		<source src="{{podcastPlayPath() | trusted}}" type="audio/mpeg" codecs="mp3">
-		Your phone does not support this!
-	</audio>
-</div>
-<div class="well">
 	<input id="player" class="width-100" data-slider-id="playerSlider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="0.01" data-slider-value="0"/>
 </div>
