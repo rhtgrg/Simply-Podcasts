@@ -2,11 +2,33 @@
 // http://stackoverflow.com/questions/16286605/initialize-angularjs-service-with-asynchronous-data
 angular.module('meringue', ['ngRoute', 'ngCordova'])
 .controller('WebsourceController', function($scope, $http, $location, database) {
-	//$scope.url = "http://gamedesignadvance.com/?page_id=1616";
-	$scope.url = "http://192.168.1.102/mp3/";
+	$scope.url = "";
 	$scope.submit = function() {
 		// Fetch the URL
-		$http.get($scope.url).success(function(data) {
+		$.get($scope.url, function(data) {
+			var podcasts = [];
+			var collection = {
+				name: $(data).find("channel").find("title").first().text(),
+				url: $scope.url
+			}
+			$(data).find("item").each(function() {
+				var $item = $(this);
+				podcasts.push({
+					name: $item.find("title").text(),
+					url: $item.find("enclosure").attr("url"),
+					duration: $item.find("enclosure").attr("length"),
+					collection: $scope.url
+				});
+			});
+			// Insert the data into the database
+			database.insertCollection(collection, function() {
+				database.insertPodcasts(podcasts, function() {
+					$location.url('/collections');
+					$scope.$apply();
+				});
+			});
+		});
+/* 		$http.get($scope.url).success(function(data) {
 			var str = data;
 			var podcasts = [];
 			// Parse the podcast names and MP3 locations
@@ -24,7 +46,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			});
 		}). error(function() {
 			console.log("Error fetching URL");
-		});
+		}); */
 	}
 })
 .controller('CollectionsController', function($scope, $cordovaFile, database) {

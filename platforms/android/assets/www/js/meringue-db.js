@@ -20,10 +20,22 @@ angular.module('meringue')
 			},
 			databaseService.errorCallback);
 		},
+		insertCollection: function(collection, callback) {
+			databaseService.db.transaction(function(tx) {
+				tx.executeSql('INSERT INTO COLLECTIONS (url, name) VALUES ("'+
+						collection.url+
+						'", "'+collection.name+'")');
+			},
+			databaseService.errorCallback, callback);
+		},
 		insertPodcasts: function(podcasts, callback) {
 			databaseService.db.transaction(function(tx) {
 				for(var i=0; i < podcasts.length; i++) {
-					tx.executeSql('INSERT INTO PODCASTS (url, name) VALUES ("'+podcasts[i].url+'", "'+podcasts[i].name+'")');
+					tx.executeSql('INSERT INTO PODCASTS (url, name, duration, collection) VALUES ("'+
+						podcasts[i].url+
+						'", "'+podcasts[i].name+
+						'", "'+podcasts[i].duration+
+						'", "'+podcasts[i].collection+'")');
 					//tx.executeSql('DELETE FROM PODCASTS WHERE url = ?', [podcasts[i].url]);
 				}
 			},
