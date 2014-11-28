@@ -11,7 +11,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			var podcasts = [];
 			var collection = {
 				name: $(data).find("channel").find("title").first().text(),
-				url: $scope.url
+				url: collectionUrl
 			}
 			$(data).find("item").each(function() {
 				var $item = $(this);
@@ -19,7 +19,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 					name: $item.find("title").text(),
 					url: $item.find("enclosure").attr("url"),
 					duration: $item.find("enclosure").attr("length"),
-					collection: $scope.url
+					collection: collectionUrl
 				});
 			});
 			// Insert the data into the database
@@ -82,10 +82,21 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		});
 	}
 })
-.controller('CollectionsController', function($scope, $cordovaFile, database) {
+.controller('CollectionsController', function($scope, $route, $cordovaFile, database) {
+	$scope.noResults = false;
+	
+	$scope.removeCollection = function(collectionUrl) {
+		if(confirm("Are you sure?")) {
+			database.removeCollection(collectionUrl, function() {
+				$route.reload();
+			});
+		}
+	}
+	
 	// Get data from database
 	database.getCollections(function(collections) {
 		$scope.collections = collections;
+		if($scope.collections.length == 0) $scope.noResults = true;
 		$scope.$apply();
 	});
 })

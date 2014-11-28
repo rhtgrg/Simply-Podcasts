@@ -28,6 +28,13 @@ angular.module('meringue')
 			},
 			databaseService.errorCallback, callback);
 		},
+		removeCollection: function(collectionUrl, callback) {
+			databaseService.db.transaction(function(tx) {
+				tx.executeSql('DELETE FROM COLLECTIONS WHERE url = ?', [collectionUrl]);
+				tx.executeSql('DELETE FROM PODCASTS WHERE collection = ?', [collectionUrl]);
+			},
+			databaseService.errorCallback, callback);
+		},
 		insertPodcasts: function(podcasts, callback) {
 			databaseService.db.transaction(function(tx) {
 				for(var i=0; i < podcasts.length; i++) {

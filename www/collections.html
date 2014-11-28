@@ -8,6 +8,7 @@
 		</div>
 		<div class="btn-group width-100" role="group">
 			<a class="btn btn-primary col-xs-6 width-100" href="#collection/{{collection.url | encoded}}">Go to collection</a>
+			<a class="btn btn-default col-xs-6 width-100" ng-click="removeCollection(collection.url)">Delete collection</a>
 		</div>
 	</li>
 </ul>
