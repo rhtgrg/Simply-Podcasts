@@ -4,32 +4,49 @@ body
 .width-100
 	width: 100%
 
-#podcasts .list-group-item
-	margin: 20px 0
-	border-radius: 5px
-	padding: 0px
-	
-	.description
-		padding: 10px			
-	
-	.progress
-		height: 5px
-		border-top-left-radius: 0
-		border-top-right-radius: 0
-		margin-bottom: 0
-
-	.btn-group>.btn
-		border-radius: 0
-		border-left: 0
-		border-right: 0
-
-		&:last-child:not(:first-child)
-			border-radius: 0
-			margin-left: 0
+#podcasts, #collections, #search
+	padding-right: 0px
+	.list-group-item
+		margin: 20px 0
+		border-radius: 5px
+		padding: 0px
 		
-		&:first-child:not(:last-child):not(.dropdown-toggle)
+		.description
+			padding: 10px			
+		
+		.progress
+			height: 5px
+			border-top-left-radius: 0
+			border-top-right-radius: 0
+			margin-bottom: 0
+
+		.btn-group>.btn
 			border-radius: 0
-			border-right: 1px solid #ddd
+			border-left: 0
+			border-right: 0
+
+			&:last-child:not(:first-child)
+				border-radius: 0
+				margin-left: 0
+			
+			&:first-child:not(:last-child):not(.dropdown-toggle)
+				border-radius: 0
+				border-right: 1px solid #ddd
+				
+#search
+	.list-group-item
+		border-radius: 5px
+		.desc-container
+			width: 100%
+			background-size: 100%
+			position: relative
+			height: 150px
+		.description
+			width: 100%
+			position: absolute
+			bottom: 0
+			background: #fff
+			opacity: 0.85
 
 #playerSlider
 	.slider-selection

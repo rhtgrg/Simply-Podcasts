@@ -15,8 +15,8 @@ angular.module('meringue')
 		},
 		initTables: function() {
 			databaseService.db.transaction(function(tx) {
-				tx.executeSql('CREATE TABLE IF NOT EXISTS COLLECTIONS (url unique, name)');
-				tx.executeSql('CREATE TABLE IF NOT EXISTS PODCASTS (url unique, collection, filepath, name, duration, position, favorited)');
+				tx.executeSql('CREATE TABLE IF NOT EXISTS COLLECTIONS (url unique, name, description)');
+				tx.executeSql('CREATE TABLE IF NOT EXISTS PODCASTS (url unique, collection, filepath, name, description, duration, position, favorited)');
 			},
 			databaseService.errorCallback);
 		},

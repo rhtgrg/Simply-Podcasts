@@ -1,0 +1,24 @@
+<!-- Header (name of collection) -->
+<h3>Search for a Podcast</h3>
+<form ng-submit="searchApple()">
+	<div class="input-group width-100">
+		<input ng-model="searchTerm" placeholder="Enter search term" type="text" class="form-control">
+		<span class="input-group-btn">
+			<input class="btn btn-primary" type="submit">Search</button>
+		</span>
+	</div>
+</form>
+<!-- Container (for list of collections found) -->
+<ul id="search" class="list-group col-xs-12">
+	<li class="collection list-group-item col-xs-6"  ng-repeat="collection in collections">
+		<div class="desc-container" style="background-image: url({{collection.artUrl}});">
+			<div class="description">
+				<span class="badge pull-right">{{collection.count}}</span>
+				{{collection.name}}
+			</div>
+		</div>
+		<div class="btn-group width-100" role="group">
+			<a class="btn btn-primary col-xs-6 width-100" ng-click="addCollection(collection.url)">Add to collections</a>
+		</div>
+	</li>
+</ul>

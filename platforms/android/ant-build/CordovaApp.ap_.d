@@ -40,6 +40,7 @@ C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\player.html \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\podcasts.html \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\search.html \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\websource.html \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\bootstrap-slider.css \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\bootstrap-theme.css \

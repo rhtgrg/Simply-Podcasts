@@ -1,6 +1,55 @@
 // http://docs.phonegap.com/en/2.1.0/cordova_storage_storage.md.html#openDatabase
 // http://stackoverflow.com/questions/16286605/initialize-angularjs-service-with-asynchronous-data
 angular.module('meringue', ['ngRoute', 'ngCordova'])
+.controller('SearchController', function($scope, $http, $location, database) {
+	$scope.searchTerm = "";
+	
+	$scope.addCollection = function(collectionUrl) {
+		// Fetch the URL (TODO: Make this a service)
+		$.get(collectionUrl, function(data) {
+			var podcasts = [];
+			var collection = {
+				name: $(data).find("channel").find("title").first().text(),
+				url: $scope.url
+			}
+			$(data).find("item").each(function() {
+				var $item = $(this);
+				podcasts.push({
+					name: $item.find("title").text(),
+					url: $item.find("enclosure").attr("url"),
+					duration: $item.find("enclosure").attr("length"),
+					collection: $scope.url
+				});
+			});
+			// Insert the data into the database
+			database.insertCollection(collection, function() {
+				database.insertPodcasts(podcasts, function() {
+					$location.url('/collections');
+					$scope.$apply();
+				});
+			});
+		});
+	}
+	
+	$scope.searchApple = function() {
+		// Search itunes using the given term
+		$.getJSON('http://itunes.apple.com/search?media=podcast&term=' +
+			encodeURIComponent($scope.searchTerm),
+			function(data) {
+				var collections = [];
+				$.each(data.results, function(i, result) {
+					collections.push({
+						name: result.collectionName,
+						url: result.feedUrl,
+						count: result.trackCount,
+						artUrl: result.artworkUrl100
+					});
+				});
+				$scope.collections = collections;
+				$scope.$apply();
+			});
+	}
+})
 .controller('WebsourceController', function($scope, $http, $location, database) {
 	$scope.url = "";
 	$scope.submit = function() {
@@ -28,25 +77,6 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 				});
 			});
 		});
-/* 		$http.get($scope.url).success(function(data) {
-			var str = data;
-			var podcasts = [];
-			// Parse the podcast names and MP3 locations
-			// var regex = /["]([^"]+.mp3)["]>([a-zA-Z ]+)/gi;
-			var regex = /["]([^"]+.mp3)["]/gi;
-			while((result = regex.exec(str))) {
-				podcasts.push({
-					name: decodeURIComponent(result[1]),
-					url: "http://192.168.1.102/mp3/" + decodeURIComponent(result[1])
-				});
-			}
-			// Insert the data into the database
-			database.insertPodcasts(podcasts, function() {
-				$location.url('/collection');
-			});
-		}). error(function() {
-			console.log("Error fetching URL");
-		}); */
 	}
 })
 .controller('CollectionsController', function($scope, $cordovaFile, database) {
@@ -232,6 +262,14 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		.when('/', {
 			templateUrl: 'websource.html',
 			controller: 'WebsourceController'
+		})
+		// .when('/', {
+			// templateUrl: 'collections.html',
+			// controller: 'CollectionsController'
+		// })
+		.when('/search', {
+			templateUrl: 'search.html',
+			controller: 'SearchController'
 		})
 		.when('/player/:podcastUrl', {
 			templateUrl: 'player.html',

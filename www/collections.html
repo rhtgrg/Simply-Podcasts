@@ -1,13 +1,16 @@
 <!-- Header (name of collection) -->
 <h3>My Collections</h3>
-<!-- Container (for list of podcasts) -->
+<!-- Container (for list of collections) -->
 <ul id="collections" class="list-group col-xs-12">
 	<li class="collection list-group-item"  ng-repeat="collection in collections">
 		<div class="description">
 			{{collection.name}}
 		</div>
 		<div class="btn-group width-100" role="group">
-			<a class="btn btn-default col-xs-6" href="#collection/{{collection.url | encoded}}">Go to collection</a>
+			<a class="btn btn-primary col-xs-6 width-100" href="#collection/{{collection.url | encoded}}">Go to collection</a>
 		</div>
 	</li>
 </ul>
+<a href="#search" class="btn btn-primary width-100">
+	Search for Podcasts
+</a>
