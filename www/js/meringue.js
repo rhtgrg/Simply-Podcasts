@@ -3,6 +3,7 @@
 angular.module('meringue', ['ngRoute', 'ngCordova'])
 .controller('SearchController', function($scope, $http, $location, database) {
 	$scope.searchTerm = "";
+	$scope.noResults = false;
 	
 	$scope.addCollection = function(collectionUrl) {
 		// Fetch the URL (TODO: Make this a service)
@@ -32,6 +33,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	}
 	
 	$scope.searchApple = function() {
+		$scope.noResults = false;
 		// Search itunes using the given term
 		$.getJSON('http://itunes.apple.com/search?media=podcast&term=' +
 			encodeURIComponent($scope.searchTerm),
@@ -46,6 +48,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 					});
 				});
 				$scope.collections = collections;
+				if(data.results.length == 0) $scope.noResults = true;
 				$scope.$apply();
 			});
 	}
@@ -80,9 +83,12 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	}
 })
 .controller('CollectionsController', function($scope, $cordovaFile, database) {
+	$scope.noResults = false;
+	
 	// Get data from database
 	database.getCollections(function(collections) {
 		$scope.collections = collections;
+		if($scope.collections.length == 0) $scope.noResults = true;
 		$scope.$apply();
 	});
 })
