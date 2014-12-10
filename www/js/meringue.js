@@ -241,6 +241,11 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			});
 		}, 1000);
 		
+		// Pause/play functionality
+		$scope.pausePlay = function() {
+			$cordovaMedia.pause(media);
+		};
+		
 		function handleBackButton() {
 			$cordovaMedia.getCurrentPosition(media).then(function(position) {
 				database.updatePodcastPlayPosition(podcastUrl, $cordovaMedia.getDuration(media), position, $scope.podcastDetails.notes, function(){
