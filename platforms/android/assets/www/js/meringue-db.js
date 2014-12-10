@@ -81,7 +81,9 @@ angular.module('meringue')
 							filepath: results.rows.item(i).filepath,
 							name: results.rows.item(i).name,
 							duration: results.rows.item(i).duration,
-							position: results.rows.item(i).position
+							position: results.rows.item(i).position,
+							favorited: results.rows.item(i).favorited,
+							notes: results.rows.item(i).notes
 						});
 					}
 					callback(podcasts);
@@ -99,6 +101,7 @@ angular.module('meringue')
 							name: results.rows.item(i).name,
 							duration: results.rows.item(i).duration,
 							position: results.rows.item(i).position,
+							favorited: results.rows.item(i).favorited,
 							notes: results.rows.item(i).notes
 						};
 					}
@@ -121,9 +124,14 @@ angular.module('meringue')
 		erasePodcastFile: function(podcastUrl, callback) {
 			databaseService.db.transaction(function(tx) {
 				tx.executeSql('UPDATE PODCASTS SET filepath = NULL WHERE url = ?', [podcastUrl]);
-				console.log("Set it to null file: "+podcastUrl);
 			},
 			databaseService.errorCallback, callback);		
+		},
+		setPodcastFavorited: function(podcastUrl, favorited, callback) {
+			databaseService.db.transaction(function(tx) {
+				tx.executeSql('UPDATE PODCASTS SET favorited = ? WHERE url = ?', [favorited, podcastUrl]);
+			},
+			databaseService.errorCallback, callback);	
 		},
 		addToPlaylist: function(podcastUrl) {
 			databaseService.db.transaction(function(tx) {

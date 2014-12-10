@@ -178,16 +178,21 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		var commonCallback = function(favorited) {
 			podcastDetails['favorited'] = favorited;
 			$scope.podcasts[$scope.podcasts.indexOf(podcastDetails)] = podcastDetails;
+			$scope.$apply();
 		}
-		if(podcastDetails.favorited) {
-			database.setPodcastFavorited(podcastDetails.url, false, function() {
-				commonCallback(false);
+		if(podcastDetails.favorited == null || podcastDetails.favorited == 'false') {
+			database.setPodcastFavorited(podcastDetails.url, 'true', function() {
+				commonCallback('true');
 			});		
 		} else {
-			database.setPodcastFavorited(podcastDetails.url, true, function() {
-				commonCallback(true);
+			database.setPodcastFavorited(podcastDetails.url, 'false', function() {
+				commonCallback('false');
 			});
 		}
+	}
+	
+	$scope.starClass = function(favorited) {
+		return ((favorited == null || favorited == 'false') ? "star-empty" : "star");
 	}
 })
 .controller('PlayerController', function($scope, database, $interval, $location, $routeParams, $cordovaMedia) {

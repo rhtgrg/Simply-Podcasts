@@ -4,6 +4,7 @@
 <ul id="podcasts" class="list-group col-xs-12">
 	<li class="podcast list-group-item"  ng-repeat="podcast in podcasts">
 		<div class="description">
+			<span class="glyphicon glyphicon-{{starClass(podcast.favorited)}} pull-right" ng-click="favoriteUnfavorite(podcast)" aria-hidden="true"></span> 
 			<span class="badge pull-right">{{(podcast.position / podcast.duration) * 100 | percent}}</span>
 			<a href="#player/{{podcast.url | encoded}}">{{podcast.name}}</a>
 		</div>

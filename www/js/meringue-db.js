@@ -82,7 +82,8 @@ angular.module('meringue')
 							name: results.rows.item(i).name,
 							duration: results.rows.item(i).duration,
 							position: results.rows.item(i).position,
-							favorited: results.rows.item(i).favorited
+							favorited: results.rows.item(i).favorited,
+							notes: results.rows.item(i).notes
 						});
 					}
 					callback(podcasts);
@@ -100,6 +101,7 @@ angular.module('meringue')
 							name: results.rows.item(i).name,
 							duration: results.rows.item(i).duration,
 							position: results.rows.item(i).position,
+							favorited: results.rows.item(i).favorited,
 							notes: results.rows.item(i).notes
 						};
 					}

@@ -172,6 +172,28 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		}
 		return podcastDetails.downloadProgress;
 	}
+	
+	// Function to favorite or unfavorite a podcast
+	$scope.favoriteUnfavorite = function(podcastDetails) {
+		var commonCallback = function(favorited) {
+			podcastDetails['favorited'] = favorited;
+			$scope.podcasts[$scope.podcasts.indexOf(podcastDetails)] = podcastDetails;
+			$scope.$apply();
+		}
+		if(podcastDetails.favorited == null || podcastDetails.favorited == 'false') {
+			database.setPodcastFavorited(podcastDetails.url, 'true', function() {
+				commonCallback('true');
+			});		
+		} else {
+			database.setPodcastFavorited(podcastDetails.url, 'false', function() {
+				commonCallback('false');
+			});
+		}
+	}
+	
+	$scope.starClass = function(favorited) {
+		return ((favorited == null || favorited == 'false') ? "star-empty" : "star");
+	}
 })
 .controller('PlayerController', function($scope, database, $interval, $location, $routeParams, $cordovaMedia) {
 	// Get the details of the given podcast from the database
