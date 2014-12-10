@@ -115,11 +115,18 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	});
 	
 	// Function to download a file given the URL (currently only MP3)
-	$scope.downloadFile = function(podcastDetails) {
+	$scope.downloadOrDeleteFile = function(podcastDetails) {
 		if(podcastDetails.filepath != null) {
-			alert("Already downloaded!");
+			// The file has already been downloaded, delete it
+			if(confirm("Are you sure?")) {
+				$cordovaFile.removeFile(podcastDetails.filepath).then(function(result) {
+					database.erasePodcastFile(podcastDetails.url);
+				});
+			}
 			return;
 		}
+		
+		// The file hasn't been downloaded, download it
 		var fileUrl = podcastDetails.url;
 		var fileName = /.*[/](.+.mp3)$/.exec(fileUrl)[1];
 		var filePath = 'cdvfile://localhost/persistent/' + fileName;
@@ -206,7 +213,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		
 		function handleBackButton() {
 			$cordovaMedia.getCurrentPosition(media).then(function(position) {
-				database.updatePodcastPlayPosition(podcastUrl, $cordovaMedia.getDuration(media), position, function(){
+				database.updatePodcastPlayPosition(podcastUrl, $cordovaMedia.getDuration(media), position, $scope.podcastDetails.notes, function(){
 					document.removeEventListener('backbutton', handleBackButton, false);
 					$interval.cancel(sliderUpdater);
 					$cordovaMedia.release(media);

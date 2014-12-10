@@ -16,7 +16,7 @@ angular.module('meringue')
 		initTables: function() {
 			databaseService.db.transaction(function(tx) {
 				tx.executeSql('CREATE TABLE IF NOT EXISTS COLLECTIONS (url unique, name, description)');
-				tx.executeSql('CREATE TABLE IF NOT EXISTS PODCASTS (url unique, collection, filepath, name, description, duration, position, favorited)');
+				tx.executeSql('CREATE TABLE IF NOT EXISTS PODCASTS (url unique, collection, filepath, name, description, duration, position, favorited, notes, in_playlist)');
 			},
 			databaseService.errorCallback);
 		},
@@ -98,16 +98,17 @@ angular.module('meringue')
 							filepath: results.rows.item(i).filepath,
 							name: results.rows.item(i).name,
 							duration: results.rows.item(i).duration,
-							position: results.rows.item(i).position
+							position: results.rows.item(i).position,
+							notes: results.rows.item(i).notes
 						};
 					}
 					callback(podcastDetails);
 				}, databaseService.errorCallback);
 			}, databaseService.errorCallback);		
 		},
-		updatePodcastPlayPosition: function(podcastUrl, duration, position, callback) {
+		updatePodcastPlayPosition: function(podcastUrl, duration, position, notes, callback) {
 			databaseService.db.transaction(function(tx) {
-				tx.executeSql('UPDATE PODCASTS SET duration = ?, position = ? WHERE url = ?', [duration, position, podcastUrl]);
+				tx.executeSql('UPDATE PODCASTS SET duration = ?, position = ?, notes = ? WHERE url = ?', [duration, position, notes, podcastUrl]);
 			},
 			databaseService.errorCallback, callback);
 		},
@@ -116,6 +117,46 @@ angular.module('meringue')
 				tx.executeSql('UPDATE PODCASTS SET filepath = ? WHERE url = ?', [filePath, podcastUrl]);
 			},
 			databaseService.errorCallback, callback);
+		},
+		erasePodcastFile: function(podcastUrl) {
+			databaseService.db.transaction(function(tx) {
+				tx.executeSql('UPDATE PODCASTS SET filepath = NULL WHERE url = ?', [podcastUrl]);
+				console.log("Set it to null file: "+podcastUrl);
+			},
+			databaseService.errorCallback, callback);		
+		},
+		addToPlaylist: function(podcastUrl) {
+			databaseService.db.transaction(function(tx) {
+				tx.executeSql('UPDATE PODCASTS SET in_playlist = ? WHERE url = ?', [true, podcastUrl]);
+			},
+			databaseService.errorCallback, callback);
+		},
+		removeFromPlaylist: function(podcastUrl) {
+			databaseService.db.transaction(function(tx) {
+				tx.executeSql('UPDATE PODCASTS SET in_playlist = ? WHERE url = ?', [false, podcastUrl]);
+			},
+			databaseService.errorCallback, callback);		
+		},
+		markPlayingPodcastInPlaylist: function(podcastUrl) {
+		
+		},
+		getPlaylistPodcasts: function(callback) {
+			databaseService.db.transaction(function(tx) {
+				tx.executeSql('SELECT * FROM PODCASTS WHERE in_playlist = ?', [true], function(tx, results) {
+					var podcasts = [];
+					for(var i=0; i<results.rows.length; i++) {
+						podcasts.push({
+							url: results.rows.item(i).url,
+							filepath: results.rows.item(i).filepath,
+							name: results.rows.item(i).name,
+							duration: results.rows.item(i).duration,
+							position: results.rows.item(i).position
+						});
+					}
+					callback(podcasts);
+				}, databaseService.errorCallback);
+			}, databaseService.errorCallback);
+
 		}
 	};
 	
