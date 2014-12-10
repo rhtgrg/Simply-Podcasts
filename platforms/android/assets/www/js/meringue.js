@@ -119,8 +119,16 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		if(podcastDetails.filepath != null) {
 			// The file has already been downloaded, delete it
 			if(confirm("Are you sure?")) {
-				$cordovaFile.removeFile(podcastDetails.filepath).then(function(result) {
-					database.erasePodcastFile(podcastDetails.url);
+				resolveLocalFileSystemURL(podcastDetails.filepath, function(file) {
+					// Substring to remove preceding 'file://'
+					$cordovaFile.removeFile(file.nativeURL.substr(7)).then(function(result) {
+						database.erasePodcastFile(podcastDetails.url, function() {
+							console.log("File successfully erased");
+						});
+					}, function(err) {
+						console.log("There was an error deleting the file "+podcastDetails.filepath);
+						console.log(err);
+					});
 				});
 			}
 			return;

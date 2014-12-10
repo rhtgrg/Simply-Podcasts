@@ -119,8 +119,16 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		if(podcastDetails.filepath != null) {
 			// The file has already been downloaded, delete it
 			if(confirm("Are you sure?")) {
-				$cordovaFile.removeFile(podcastDetails.filepath).then(function(result) {
-					database.erasePodcastFile(podcastDetails.url);
+				resolveLocalFileSystemURL(podcastDetails.filepath, function(file) {
+					// Substring to remove preceding 'file://'
+					$cordovaFile.removeFile(file.nativeURL.substr(7)).then(function(result) {
+						database.erasePodcastFile(podcastDetails.url, function() {
+							console.log("File successfully erased");
+						});
+					}, function(err) {
+						console.log("There was an error deleting the file "+podcastDetails.filepath);
+						console.log(err);
+					});
 				});
 			}
 			return;
@@ -163,6 +171,23 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			}
 		}
 		return podcastDetails.downloadProgress;
+	}
+	
+	// Function to favorite or unfavorite a podcast
+	$scope.favoriteUnfavorite = function(podcastDetails) {
+		var commonCallback = function(favorited) {
+			podcastDetails['favorited'] = favorited;
+			$scope.podcasts[$scope.podcasts.indexOf(podcastDetails)] = podcastDetails;
+		}
+		if(podcastDetails.favorited) {
+			database.setPodcastFavorited(podcastDetails.url, false, function() {
+				commonCallback(false);
+			});		
+		} else {
+			database.setPodcastFavorited(podcastDetails.url, true, function() {
+				commonCallback(true);
+			});
+		}
 	}
 })
 .controller('PlayerController', function($scope, database, $interval, $location, $routeParams, $cordovaMedia) {

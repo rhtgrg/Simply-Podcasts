@@ -118,7 +118,7 @@ angular.module('meringue')
 			},
 			databaseService.errorCallback, callback);
 		},
-		erasePodcastFile: function(podcastUrl) {
+		erasePodcastFile: function(podcastUrl, callback) {
 			databaseService.db.transaction(function(tx) {
 				tx.executeSql('UPDATE PODCASTS SET filepath = NULL WHERE url = ?', [podcastUrl]);
 				console.log("Set it to null file: "+podcastUrl);
