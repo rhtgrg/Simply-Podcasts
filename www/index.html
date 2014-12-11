@@ -23,14 +23,14 @@
 			<div ng-view  class="container-fluid">
 			</div>
 			<div ng-controller="MiniPlayerController" id="plist-mini-player">
-				<div ng-click="playPause()" class="btn btn-default width-100">
+				<div class="btn btn-default width-100">
 					<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
 				</div>
 				<div id="mini-player-controls" class="width-100">
 					<a class="btn btn-default btn-fave col-xs-1">
 						<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
 					</a>
-					<a class="btn btn-default btn-play-pause col-xs-2">
+					<a  ng-click="pausePlay()" class="btn btn-default btn-play-pause col-xs-2">
 						<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
 					</a>
 					<div id="slider-container" class="col-xs-7">

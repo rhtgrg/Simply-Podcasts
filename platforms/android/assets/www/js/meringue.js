@@ -268,11 +268,16 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 })
 .controller('MiniPlayerController', function($scope, database, player, $interval, $cordovaMedia) {
 	// Create the method that controls the playing of the podcast
-	// TODO: Legacy code, may need refactor for elegance
+	var firstLaunch = true;
+	var mediaSource, media;
 	var playWithUrl = function(podcastUrl) {
+		// Attempt to clear media to prevent issues
+		if(typeof media !== "undefined") {
+			$cordovaMedia.release(media);
+		}
+		// Fetch podcast details and play it
 		database.getPodcastDetails(podcastUrl, function(podcastDetails) {
 			$scope.podcastDetails = podcastDetails;
-			var loaded = false;
 			
 			$scope.podcastPlayPath = function() {
 				if(podcastDetails.filepath == null) 
@@ -281,24 +286,35 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 					return podcastDetails.filepath;
 			}
 			
-			var mediaSource = $cordovaMedia.newMedia($scope.podcastPlayPath());
-			var media = mediaSource.media;
+			mediaSource = $cordovaMedia.newMedia($scope.podcastPlayPath());
+			media = mediaSource.media;
+			
 			// Play the media file
+			console.log("Playing media: "+$scope.podcastPlayPath());
 			$cordovaMedia.play(media);
 			
+			// Perform initial setup if necessary
+			if(firstLaunch) {
+				firstLaunchSetup();
+			}
+			
+			// Seek to the correct position
 			// There is no player callback, so improvise with an interval
-			var promise;
-			promise = $interval(function() {
+			var beginPlayPromise = $interval(function() {
 				$cordovaMedia.getCurrentPosition(media).then(function(position) {
 					if(position > 0) {
 						// Seek to the last played position
 						$cordovaMedia.seekTo(media, podcastDetails.position * 1000);
-						$interval.cancel(promise);
+						$interval.cancel(beginPlayPromise);
 						// TODO: Have a loading spinner (if streaming) and at this point hide it
 					}
 				});
 			}, 100);
 			
+			$scope.$apply();
+		});
+		
+		var firstLaunchSetup = function() {
 			// Initiate the slider / player
 			var $slider = $('#slider-handle').slider().on('slideStop', function() {
 				// The value of the slider is the % completion the audio is at
@@ -307,7 +323,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			});
 			
 			// Keep the slider updated
-			var sliderUpdater = $interval(function() {
+			$interval(function() {
 				$cordovaMedia.getCurrentPosition(media).then(function(position) {
 					$slider.slider('setValue', (position / $cordovaMedia.getDuration(media)) * 100);
 				});
@@ -318,8 +334,8 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 				$cordovaMedia.pause(media);
 			};
 			
-			$scope.$apply();
-		});
+			firstLaunch = false;
+		}
 	}
 	
 	player['playWithUrl'] = playWithUrl;
