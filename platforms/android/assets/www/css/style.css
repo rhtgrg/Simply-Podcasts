@@ -4,6 +4,13 @@ body {
 .width-100 {
   width: 100%; }
 
+#navbar {
+  width: 100%; }
+  #navbar .btn-group {
+    width: 100%; }
+    #navbar .btn-group > .btn {
+      border-radius: 0; }
+
 #podcasts, #collections, #search {
   padding-right: 0px; }
   #podcasts .list-group-item, #collections .list-group-item, #search .list-group-item {

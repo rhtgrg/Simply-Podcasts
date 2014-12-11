@@ -12,8 +12,15 @@
         <title>Meringue</title>
     </head>
     <body>
-		<div ng-app="meringue" class="container-fluid">
-			<div ng-view>
+		<div ng-app="meringue">
+			<div id="navbar">
+				<div class="btn-group btn-group-justified" role="group">
+					<a type="button" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search</a>
+					<a type="button" class="btn btn-default"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> Catalog</a>
+					<a type="button" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Playlist</a>
+				</div>
+			</div>
+			<div ng-view  class="container-fluid">
 			</div>
 		</div>
 		<script type="text/javascript" src="js/lib/jquery.min.js"></script>
