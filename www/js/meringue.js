@@ -269,12 +269,18 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 .controller('MiniPlayerController', function($scope, database, player, $interval, $cordovaMedia) {
 	// Create the method that controls the playing of the podcast
 	var firstLaunch = true;
-	var mediaSource, media;
+	var mediaSource, media, progressSaver;
 	var playWithUrl = function(podcastUrl) {
+		// Stop saving progress for previous thing (if any)
+		if(typeof progressSaver !== "undefined") {
+			$interval.cancel(progressSaver);
+		}
 		// Attempt to clear media to prevent issues
 		if(typeof media !== "undefined") {
 			$cordovaMedia.release(media);
 		}
+		// Show player
+		$('#plist-mini-player').removeClass('hide');
 		// Fetch podcast details and play it
 		database.getPodcastDetails(podcastUrl, function(podcastDetails) {
 			$scope.podcastDetails = podcastDetails;
@@ -298,8 +304,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 				firstLaunchSetup();
 			}
 			
-			// Seek to the correct position
-			// There is no player callback, so improvise with an interval
+			// Seek to the correct position - there's no player callback, so improvise with an interval
 			var beginPlayPromise = $interval(function() {
 				$cordovaMedia.getCurrentPosition(media).then(function(position) {
 					if(position > 0) {
@@ -307,6 +312,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 						$cordovaMedia.seekTo(media, podcastDetails.position * 1000);
 						$interval.cancel(beginPlayPromise);
 						// TODO: Have a loading spinner (if streaming) and at this point hide it
+						periodicallySaveProgress();
 					}
 				});
 			}, 100);
@@ -335,6 +341,16 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			};
 			
 			firstLaunch = false;
+		}
+		
+		var periodicallySaveProgress = function() {
+			progressSaver = $interval(function() {
+				$cordovaMedia.getCurrentPosition(media).then(function(position) {
+					database.updatePodcastPlayPosition($scope.podcastDetails.url, $cordovaMedia.getDuration(media), position, $scope.podcastDetails.notes, function(){
+						// Do nothing on successful progress saving
+					});
+				});
+			}, 1000);
 		}
 	}
 	
@@ -394,14 +410,14 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 })
 .config(function($routeProvider) {
 	$routeProvider
-		.when('/', {
-			templateUrl: 'websource.html',
-			controller: 'WebsourceController'
-		})
 		// .when('/', {
-			// templateUrl: 'collections.html',
-			// controller: 'CollectionsController'
+			// templateUrl: 'websource.html',
+			// controller: 'WebsourceController'
 		// })
+		.when('/', {
+			templateUrl: 'collections.html',
+			controller: 'CollectionsController'
+		})
 		.when('/search', {
 			templateUrl: 'search.html',
 			controller: 'SearchController'
