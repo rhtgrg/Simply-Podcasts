@@ -200,6 +200,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 .controller('MiniPlayerController', function($scope, database, player, $interval, $cordovaMedia) {
 	// Create the method that controls the playing of the podcast
 	var firstLaunch = true;
+	var playing = false;
 	var mediaSource, media, progressSaver;
 	var playWithUrl = function(podcastUrl) {
 		// Stop saving progress for previous thing (if any)
@@ -227,8 +228,8 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			media = mediaSource.media;
 			
 			// Play the media file
-			console.log("Playing media: "+$scope.podcastPlayPath());
 			$cordovaMedia.play(media);
+			playing = true;
 			
 			// Perform initial setup if necessary
 			if(firstLaunch) {
@@ -268,7 +269,13 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			
 			// Pause/play functionality
 			$scope.pausePlay = function() {
-				$cordovaMedia.pause(media);
+				if(playing) {
+					$cordovaMedia.pause(media);
+					playing = false;
+				} else {
+					$cordovaMedia.play(media);
+					playing = true;
+				}
 			};
 			
 			firstLaunch = false;

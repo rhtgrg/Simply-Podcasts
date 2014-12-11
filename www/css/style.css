@@ -66,10 +66,15 @@ body {
   #plist-mini-player .btn {
     padding: 6px 6px;
     border-radius: 0; }
-  #plist-mini-player #mini-player-controls .btn {
-    border-top: 0;
-    border-bottom: 0; }
-  #plist-mini-player #slider-container {
-    height: 34px; }
-    #plist-mini-player #slider-container .slider.slider-horizontal {
-      height: 100%; }
+  #plist-mini-player #mini-player-controls {
+    padding: 0px; }
+    #plist-mini-player #mini-player-controls .btn {
+      border-top: 0; }
+    #plist-mini-player #mini-player-controls #slider-container {
+      height: 34px;
+      border-bottom: 1px solid #cccccc; }
+      #plist-mini-player #mini-player-controls #slider-container .slider.slider-horizontal {
+        height: 100%; }
+  #plist-mini-player .name {
+    height: 20px;
+    line-height: 20px; }
