@@ -71,7 +71,7 @@ body {
     #plist-mini-player #mini-player-controls .btn {
       border-top: 0; }
     #plist-mini-player #mini-player-controls #slider-container {
-      height: 34px;
+      height: 33px;
       border-bottom: 1px solid #cccccc; }
       #plist-mini-player #mini-player-controls #slider-container .slider.slider-horizontal {
         height: 100%; }

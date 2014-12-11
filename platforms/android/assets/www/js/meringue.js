@@ -209,9 +209,11 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	var mediaSource, media, progressSaver;
 	
 	player.playNextInPlaylist = function(forcedPlay) {
-		var index = (playingNum == null) ? 0 : index + 1;
+		console.log(playingNum);
+		var index = (playingNum == null) ? 0 : playingNum + 1;
 		if(index != 0 && !forcedPlay) return; // Don't play if already begun
 		database.getPlaylistIndex(index, function(podcast) {
+			console.log(podcast.url);
 			player.playWithUrl(podcast.url);
 			playingNum = index;
 		});
@@ -281,7 +283,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 					var sliderValue = (position / $cordovaMedia.getDuration(media)) * 100;
 					$slider.slider('setValue', (position / $cordovaMedia.getDuration(media)) * 100);
 					// Check if the song is over and go to the next thing
-					console.log(sliderValue);
+					// TODO: Test this well
 					if(sliderValue < 0) {
 						player.playNextInPlaylist(true);
 					}
