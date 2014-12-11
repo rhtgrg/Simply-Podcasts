@@ -209,11 +209,9 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	var mediaSource, media, progressSaver;
 	
 	player.playNextInPlaylist = function(forcedPlay) {
-		console.log(playingNum);
 		var index = (playingNum == null) ? 0 : playingNum + 1;
 		if(index != 0 && !forcedPlay) return; // Don't play if already begun
 		database.getPlaylistIndex(index, function(podcast) {
-			console.log(podcast.url);
 			player.playWithUrl(podcast.url);
 			playingNum = index;
 		});
