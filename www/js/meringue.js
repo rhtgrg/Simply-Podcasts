@@ -264,6 +264,12 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		$scope.$apply();
 	});
 })
+.controller('MiniPlayerController', function() {
+
+})
+.controller('PlaylistController', function() {
+
+})
 .run(function() {
 	var hammerjs = new Hammer($('body')[0]);
 	hammerjs.on('panleft', function(e) {
@@ -338,5 +344,9 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		.when('/collection/:collectionUrl', {
 			templateUrl: 'podcasts.html',
 			controller: 'PodcastsController'
+		})
+		.when('/playlist', {
+			templateUrl: 'playlist.html',
+			controller: 'PlaylistController'
 		});
 });

@@ -38,6 +38,7 @@ C:\Users\RG\Desktop\meringue\platforms\android\assets\www\img \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\index.html \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\player.html \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\playlist.html \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\plugins \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\podcasts.html \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\search.html \

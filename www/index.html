@@ -17,10 +17,34 @@
 				<div class="btn-group btn-group-justified" role="group">
 					<a type="button" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search</a>
 					<a type="button" class="btn btn-default"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> Catalog</a>
-					<a type="button" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Playlist</a>
+					<a type="button" class="btn btn-default" href="#playlist"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Playlist</a>
 				</div>
 			</div>
 			<div ng-view  class="container-fluid">
+			</div>
+			<div ng-controller="MiniPlayerController" id="plist-mini-player">
+				<div class="btn btn-default width-100">
+					<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+				</div>
+				<div id="mini-player-controls col-xs-12">
+					<a class="btn btn-default btn-fave col-xs-1">
+						<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+					</a>
+					<a class="btn btn-default btn-play-pause col-xs-2">
+						<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+					</a>
+					<div class="col-xs-7"></div>
+					<a class="btn btn-default btn-prev col-xs-1">
+						<span class="glyphicon glyphicon-backward" aria-hidden="true"></span>
+					</a>
+					<a class="btn btn-default btn-next col-xs-1">
+						<span class="glyphicon glyphicon-forward" aria-hidden="true"></span>
+					</a>
+				</div>
+				<div id="mini-player-extras">
+					<!-- Details -->
+					<!-- Notes -->
+				</div>
 			</div>
 		</div>
 		<script type="text/javascript" src="js/lib/jquery.min.js"></script>
