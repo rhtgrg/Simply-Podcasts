@@ -58,6 +58,7 @@ body {
   background: #bababa; }
 
 #plist-mini-player {
+  background: white;
   width: 100%;
   z-index: 10;
   position: fixed;
@@ -65,3 +66,10 @@ body {
   #plist-mini-player .btn {
     padding: 6px 6px;
     border-radius: 0; }
+  #plist-mini-player #mini-player-controls .btn {
+    border-top: 0;
+    border-bottom: 0; }
+  #plist-mini-player #slider-container {
+    height: 34px; }
+    #plist-mini-player #slider-container .slider.slider-horizontal {
+      height: 100%; }
