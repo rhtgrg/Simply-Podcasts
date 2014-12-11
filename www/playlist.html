@@ -1,1 +1,10 @@
-<p>I haven't made this yet, sorry!</p>
+<!-- Header -->
+<h3>Playlist</h3>
+<!-- Container (for list of podcasts) -->
+<ul id="playlist" class="list-group col-xs-12">
+	<li class="playlist list-group-item"  ng-repeat="podcast in podcasts">
+		<div class="description">
+			<a>{{podcast.name}}</a>
+		</div>
+	</li>
+</ul>

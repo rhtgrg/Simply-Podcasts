@@ -131,24 +131,31 @@ angular.module('meringue')
 			},
 			databaseService.errorCallback, callback);	
 		},
-		addToPlaylist: function(podcastUrl) {
+		getMaxPlaylistNum: function(callback) {
 			databaseService.db.transaction(function(tx) {
-				tx.executeSql('UPDATE PODCASTS SET in_playlist = ? WHERE url = ?', [true, podcastUrl]);
-			},
-			databaseService.errorCallback, callback);
+				tx.executeSql('SELECT MAX(in_playlist) AS num FROM PODCASTS', [], function(tx, results) {
+					callback(results.rows.item(0).num);
+				}, databaseService.errorCallback);
+			}, databaseService.errorCallback);
+		},
+		addToPlaylist: function(podcastUrl, callback) {
+			databaseService.getMaxPlaylistNum(function(num) {
+				var playlistNum = (typeof num == "undefined" || num == null) ? 0 : num + 1;
+				databaseService.db.transaction(function(tx) {
+					tx.executeSql('UPDATE PODCASTS SET in_playlist = ? WHERE url = ?', [playlistNum, podcastUrl]);
+				},
+				databaseService.errorCallback, callback);
+			});
 		},
 		removeFromPlaylist: function(podcastUrl) {
 			databaseService.db.transaction(function(tx) {
-				tx.executeSql('UPDATE PODCASTS SET in_playlist = ? WHERE url = ?', [false, podcastUrl]);
+				tx.executeSql('UPDATE PODCASTS SET in_playlist = ? WHERE url = ?', [null, podcastUrl]);
 			},
 			databaseService.errorCallback, callback);		
 		},
-		markPlayingPodcastInPlaylist: function(podcastUrl) {
-		
-		},
 		getPlaylistPodcasts: function(callback) {
 			databaseService.db.transaction(function(tx) {
-				tx.executeSql('SELECT * FROM PODCASTS WHERE in_playlist = ?', [true], function(tx, results) {
+				tx.executeSql('SELECT * FROM PODCASTS WHERE in_playlist IS NOT NULL', [], function(tx, results) {
 					var podcasts = [];
 					for(var i=0; i<results.rows.length; i++) {
 						podcasts.push({
@@ -162,7 +169,6 @@ angular.module('meringue')
 					callback(podcasts);
 				}, databaseService.errorCallback);
 			}, databaseService.errorCallback);
-
 		}
 	};
 	

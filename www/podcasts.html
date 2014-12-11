@@ -10,8 +10,7 @@
 		</div>
 		<div class="btn-group width-100" role="group">
 			<a class="btn btn-default col-xs-6" ng-click="downloadOrDeleteFile(podcast)">{{podcast.filepath | podcastFilter:'actionText'}}</a>
-			<a class="btn {{podcast.filepath | podcastFilter:'btnClass'}} col-xs-6" ng-click="playWithUrl(podcast.url)">{{podcast.filepath | podcastFilter:'playText'}}</a>
-			<!--<a class="btn {{podcast.filepath | podcastFilter:'btnClass'}} col-xs-6" href="#player/{{podcast.url | encoded}}">{{podcast.filepath | podcastFilter:'playText'}}</a>-->
+			<a class="btn {{podcast.filepath | podcastFilter:'btnClass'}} col-xs-6" ng-click="addToPlaylist(podcast.url)">{{podcast.filepath | podcastFilter:'playText'}}</a>
 		</div>
 		<div class="progress">
 			<div class="progress-bar width-100" role="progressbar" style="width: {{getProgressValue(podcast)}}%;">

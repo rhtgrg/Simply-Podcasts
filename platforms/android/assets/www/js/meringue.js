@@ -195,10 +195,15 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		return ((favorited == null || favorited == 'false') ? "star-empty" : "star");
 	}
 	
-	$scope.playWithUrl = player.playWithUrl;
+	$scope.addToPlaylist = function(podcastUrl) {
+		database.addToPlaylist(podcastUrl, function() {
+			player.playNextInPlaylist();
+		});
+	}
 })
 .controller('MiniPlayerController', function($scope, database, player, $interval, $cordovaMedia) {
 	// Create the method that controls the playing of the podcast
+	$scope.playing = false;
 	var firstLaunch = true;
 	var mediaSource, media, progressSaver;
 	var playWithUrl = function(podcastUrl) {
@@ -227,8 +232,8 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			media = mediaSource.media;
 			
 			// Play the media file
-			console.log("Playing media: "+$scope.podcastPlayPath());
 			$cordovaMedia.play(media);
+			$scope.playing = true;
 			
 			// Perform initial setup if necessary
 			if(firstLaunch) {
@@ -268,7 +273,13 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			
 			// Pause/play functionality
 			$scope.pausePlay = function() {
-				$cordovaMedia.pause(media);
+				if($scope.playing) {
+					$cordovaMedia.pause(media);
+					$scope.playing = false;
+				} else {
+					$cordovaMedia.play(media);
+					$scope.playing = true;
+				}
 			};
 			
 			firstLaunch = false;
@@ -287,8 +298,12 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	
 	player['playWithUrl'] = playWithUrl;
 })
-.controller('PlaylistController', function() {
-
+.controller('PlaylistController', function($scope, database) {
+	// Get data from database
+	database.getPlaylistPodcasts(function(podcasts) {
+		$scope.podcasts = podcasts;
+		$scope.$apply();
+	});
 })
 .run(function() {
 	var hammerjs = new Hammer($('body')[0]);
@@ -337,6 +352,11 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	
 		var index = (filepath == null) ? 0 : 1;
 		return dict[dictKey][index];
+	}
+})
+.filter('playButton', function() {
+	return function(playing) {
+		return (playing ? "pause" : "play");
 	}
 })
 .config(function($routeProvider) {
