@@ -3,12 +3,10 @@ angular.module('meringue')
 	var databaseService = {
 		db: undefined,
 		init: function() {
-			document.addEventListener("deviceready", function() {
-				databaseService.db = window.openDatabase("meringue", "1.0", "Meringue DB", 1000000);
-				databaseService.initTables();
-				window.ds = databaseService;
-				console.log("Database initialized");
-			}, false);
+			databaseService.db = window.openDatabase("meringue", "1.0", "Meringue DB", 1000000);
+			databaseService.initTables();
+			window.ds = databaseService;
+			console.log("Database initialized");
 		},
 		errorCallback: function(error) {
 			console.log("Database error! " + error.message);

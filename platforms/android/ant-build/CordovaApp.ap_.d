@@ -61,7 +61,9 @@ C:\Users\RG\Desktop\meringue\platforms\android\assets\www\img\tex.png \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\feed.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\index.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\meringue-bootstrap.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\meringue-db.js \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\meringue-player.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\meringue.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\npm.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib\angular-route.js \
