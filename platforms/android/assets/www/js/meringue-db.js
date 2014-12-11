@@ -147,11 +147,36 @@ angular.module('meringue')
 				databaseService.errorCallback, callback);
 			});
 		},
+		clearPlaylist: function(callback) {
+			databaseService.db.transaction(function(tx) {
+				tx.executeSql('UPDATE PODCASTS SET in_playlist = ?', [null]);
+			},
+			databaseService.errorCallback, callback);		
+		},
 		removeFromPlaylist: function(podcastUrl) {
 			databaseService.db.transaction(function(tx) {
 				tx.executeSql('UPDATE PODCASTS SET in_playlist = ? WHERE url = ?', [null, podcastUrl]);
 			},
 			databaseService.errorCallback, callback);		
+		},
+		getPlaylistIndex: function(index, callback) {
+			databaseService.db.transaction(function(tx) {
+				tx.executeSql('SELECT * FROM PODCASTS WHERE in_playlist = ?', [index], function(tx, results) {
+					var podcastDetails = {};
+					for(var i=0; i<results.rows.length; i++) {
+						podcastDetails = {
+							url: results.rows.item(i).url,
+							filepath: results.rows.item(i).filepath,
+							name: results.rows.item(i).name,
+							duration: results.rows.item(i).duration,
+							position: results.rows.item(i).position,
+							favorited: results.rows.item(i).favorited,
+							notes: results.rows.item(i).notes
+						};
+					}
+					callback(podcastDetails);
+				}, databaseService.errorCallback);
+			}, databaseService.errorCallback);		
 		},
 		getPlaylistPodcasts: function(callback) {
 			databaseService.db.transaction(function(tx) {

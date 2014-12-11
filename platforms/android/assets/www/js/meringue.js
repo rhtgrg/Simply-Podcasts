@@ -197,16 +197,27 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	
 	$scope.addToPlaylist = function(podcastUrl) {
 		database.addToPlaylist(podcastUrl, function() {
-			player.playNextInPlaylist();
+			player.playNextInPlaylist(false);
 		});
 	}
 })
 .controller('MiniPlayerController', function($scope, database, player, $interval, $cordovaMedia) {
 	// Create the method that controls the playing of the podcast
 	$scope.playing = false;
+	var playingNum = null; // Number of the song currently playing
 	var firstLaunch = true;
 	var mediaSource, media, progressSaver;
-	var playWithUrl = function(podcastUrl) {
+	
+	player.playNextInPlaylist = function(forcedPlay) {
+		var index = (playingNum == null) ? 0 : index + 1;
+		if(index != 0 && !forcedPlay) return; // Don't play if already begun
+		database.getPlaylistIndex(index, function(podcast) {
+			player.playWithUrl(podcast.url);
+			playingNum = index;
+		});
+	}
+	
+	player.playWithUrl = function(podcastUrl) {
 		// Stop saving progress for previous thing (if any)
 		if(typeof progressSaver !== "undefined") {
 			$interval.cancel(progressSaver);
@@ -267,7 +278,13 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			// Keep the slider updated
 			$interval(function() {
 				$cordovaMedia.getCurrentPosition(media).then(function(position) {
+					var sliderValue = (position / $cordovaMedia.getDuration(media)) * 100;
 					$slider.slider('setValue', (position / $cordovaMedia.getDuration(media)) * 100);
+					// Check if the song is over and go to the next thing
+					console.log(sliderValue);
+					if(sliderValue < 0) {
+						player.playNextInPlaylist(true);
+					}
 				});
 			}, 1000);
 			
@@ -295,8 +312,6 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			}, 1000);
 		}
 	}
-	
-	player['playWithUrl'] = playWithUrl;
 })
 .controller('PlaylistController', function($scope, database) {
 	// Get data from database
@@ -304,6 +319,12 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		$scope.podcasts = podcasts;
 		$scope.$apply();
 	});
+	
+	$scope.clearPlaylist = function() {
+		database.clearPlaylist(function() {
+			// Do nothing
+		});
+	}
 })
 .run(function() {
 	var hammerjs = new Hammer($('body')[0]);
