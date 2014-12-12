@@ -5,7 +5,7 @@ body {
   width: 100%; }
 
 .container-fluid {
-  padding-top: 30px; }
+  padding-top: 50px; }
 
 #navbar {
   width: 100%;
@@ -14,6 +14,7 @@ body {
   #navbar .btn-group {
     width: 100%; }
     #navbar .btn-group > .btn {
+      height: 50px;
       border-radius: 0; }
 
 #podcasts, #collections, #search, #playlist {

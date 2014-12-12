@@ -1,6 +1,12 @@
 // http://docs.phonegap.com/en/2.1.0/cordova_storage_storage.md.html#openDatabase
 // http://stackoverflow.com/questions/16286605/initialize-angularjs-service-with-asynchronous-data
 angular.module('meringue', ['ngRoute', 'ngCordova'])
+.controller('NavBarController', function($scope) {
+	$scope.chooseNavButton = function(index) {
+		$('#navbar btn').removeClass('btn-primary').addClass('btn-default');
+		$('#navbar btn').eq(index).removeClass('btn-default').addClass('btn-primary');
+	}
+})
 .controller('SearchController', function($scope, $http, $location, database) {
 	$scope.searchTerm = "";
 	$scope.noResults = false;
@@ -147,6 +153,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 						podcastDetails['filepath'] = filePath;
 						$scope.podcasts[$scope.podcasts.indexOf(podcastDetails)] = podcastDetails;
 						console.log("DB updated");
+						$scope.$apply();
 					});
 				}, function(err) {
 					console.log("Error downloading file: ");
@@ -208,6 +215,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	var mediaSource, media, progressSaver;
 	
 	player.playIndexInPlaylist = function(index) {
+		console.log("Attempting to play index "+index);
 		database.getPlaylistIndex(index, function(podcast) {
 			// Can only play if there is something there
 			if(!$.isEmptyObject(podcast)) {
@@ -327,7 +335,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	// If we were playing something last time, try to resume it
 	database.getPreference('currentIndexInPlaylist', function(index) {
 		if(typeof index !== 'undefined' || index != null) {
-			player.playIndexInPlaylist(player.playingIndex);
+			player.playIndexInPlaylist(index);
 		}
 	});
 })
