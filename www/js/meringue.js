@@ -208,8 +208,6 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	var mediaSource, media, progressSaver;
 	
 	player.playIndexInPlaylist = function(index) {
-		// Forced play signifies whether it is absolutely necessary to begin playing
-		if(index != 0 && !forcedPlay) return; // Don't play if already begun
 		database.getPlaylistIndex(index, function(podcast) {
 			// Can only play if there is something there
 			if(!$.isEmptyObject(podcast)) {
@@ -224,6 +222,8 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	
 	player.playNextInPlaylist = function(forcedPlay) {
 		var index = (player.playingIndex == null) ? 0 : player.playingIndex + 1;
+		// Forced play signifies whether it is absolutely necessary to begin playing
+		if(index != 0 && !forcedPlay) return; // Don't play if already begun
 		player.playIndexInPlaylist(index);
 	}
 	
