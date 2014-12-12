@@ -352,6 +352,8 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		});
 	}
 	
+	$scope.playIndexInPlaylist = player.playIndexInPlaylist;
+	
 	player.updatePlaylist();
 })
 .run(function() {

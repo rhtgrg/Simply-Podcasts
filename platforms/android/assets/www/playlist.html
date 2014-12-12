@@ -2,7 +2,7 @@
 <h3>Playlist</h3>
 <!-- Container (for list of podcasts) -->
 <ul id="playlist" class="list-group col-xs-12">
-	<li ng-repeat="podcast in podcasts" class="playlist list-group-item {{podcast.class}}">
+	<li ng-repeat="podcast in podcasts" ng-click="playIndexInPlaylist($index)" class="playlist list-group-item {{podcast.class}}">
 		<div class="description">
 			<a>{{podcast.name}}</a>
 		</div>
