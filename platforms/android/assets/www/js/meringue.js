@@ -162,7 +162,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	
 	// Returns the current download progress, or the play progress
 	$scope.getProgressValue = function(podcastDetails) {
-		if(typeof podcastDetails.downloadProgress == "undefined") {
+		if(typeof podcastDetails.downloadProgress == 'undefined') {
 			var interim = (podcastDetails.position/podcastDetails.duration) * 100;
 			if(isNaN(interim)) {
 				return 0;
@@ -204,26 +204,36 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 .controller('MiniPlayerController', function($scope, database, player, $interval, $cordovaMedia) {
 	// Create the method that controls the playing of the podcast
 	$scope.playing = false;
-	var playingNum = null; // Number of the song currently playing
 	var firstLaunch = true;
 	var mediaSource, media, progressSaver;
 	
-	player.playNextInPlaylist = function(forcedPlay) {
-		var index = (playingNum == null) ? 0 : playingNum + 1;
+	player.playIndexInPlaylist = function(index) {
+		// Forced play signifies whether it is absolutely necessary to begin playing
 		if(index != 0 && !forcedPlay) return; // Don't play if already begun
 		database.getPlaylistIndex(index, function(podcast) {
-			player.playWithUrl(podcast.url);
-			playingNum = index;
+			// Can only play if there is something there
+			if(!$.isEmptyObject(podcast)) {
+				player.playWithUrl(podcast.url);
+				player.updatePlayingIndex(index);
+			} else {
+				// In here, we are probably done with the playlist, so hide the mini player
+				$('#plist-mini-player').addClass('hide');
+			}
 		});
+	}
+	
+	player.playNextInPlaylist = function(forcedPlay) {
+		var index = (player.playingIndex == null) ? 0 : player.playingIndex + 1;
+		player.playIndexInPlaylist(index);
 	}
 	
 	player.playWithUrl = function(podcastUrl) {
 		// Stop saving progress for previous thing (if any)
-		if(typeof progressSaver !== "undefined") {
+		if(typeof progressSaver !== 'undefined') {
 			$interval.cancel(progressSaver);
 		}
 		// Attempt to clear media to prevent issues
-		if(typeof media !== "undefined") {
+		if(typeof media !== 'undefined') {
 			$cordovaMedia.release(media);
 		}
 		// Show player
@@ -312,8 +322,15 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			}, 1000);
 		}
 	}
+
+	// If we were playing something last time, try to resume it
+	database.getPreference('currentIndexInPlaylist', function(index) {
+		if(typeof index !== 'undefined' || index != null) {
+			player.playIndexInPlaylist(player.playingIndex);
+		}
+	});
 })
-.controller('PlaylistController', function($scope, database) {
+.controller('PlaylistController', function($scope, player, database) {
 	// Get data from database
 	database.getPlaylistPodcasts(function(podcasts) {
 		$scope.podcasts = podcasts;
@@ -322,7 +339,9 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	
 	$scope.clearPlaylist = function() {
 		database.clearPlaylist(function() {
-			// Do nothing
+			$scope.podcasts = [];
+			player.updatePlayingIndex(null);
+			$scope.$apply();
 		});
 	}
 })

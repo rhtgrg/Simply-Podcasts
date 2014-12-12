@@ -15,8 +15,23 @@ angular.module('meringue')
 			databaseService.db.transaction(function(tx) {
 				tx.executeSql('CREATE TABLE IF NOT EXISTS COLLECTIONS (url unique, name, description)');
 				tx.executeSql('CREATE TABLE IF NOT EXISTS PODCASTS (url unique, collection, filepath, name, description, duration, position, favorited, notes, in_playlist)');
+				tx.executeSql('CREATE TABLE IF NOT EXISTS PREFERENCES (key unique, value)');
 			},
 			databaseService.errorCallback);
+		},
+		setPreference: function(key, val, callback) {
+			databaseService.db.transaction(function(tx) {
+				tx.executeSql('DELETE FROM PREFERENCES WHERE key = ?', [key]);
+				tx.executeSql('INSERT INTO PREFERENCES (key, value) VALUES (?, ?)', [key, val]);
+			},
+			databaseService.errorCallback, callback);
+		},
+		getPreference: function(key, callback) {
+			databaseService.db.transaction(function(tx) {
+				tx.executeSql('SELECT * FROM PREFERENCES WHERE key = ?', [key], function(tx, results) {
+					callback(results.rows.item(0).value);
+				}, databaseService.errorCallback);
+			}, databaseService.errorCallback);
 		},
 		insertCollection: function(collection, callback) {
 			databaseService.db.transaction(function(tx) {
@@ -180,7 +195,7 @@ angular.module('meringue')
 		},
 		getPlaylistPodcasts: function(callback) {
 			databaseService.db.transaction(function(tx) {
-				tx.executeSql('SELECT * FROM PODCASTS WHERE in_playlist IS NOT NULL', [], function(tx, results) {
+				tx.executeSql('SELECT * FROM PODCASTS WHERE in_playlist IS NOT NULL ORDER BY in_playlist', [], function(tx, results) {
 					var podcasts = [];
 					for(var i=0; i<results.rows.length; i++) {
 						podcasts.push({
