@@ -198,11 +198,11 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	$scope.addToPlaylist = function(podcastUrl) {
 		database.addToPlaylist(podcastUrl, function() {
 			player.playNextInPlaylist(false);
+			player.updatePlaylist(); // Doing this here because above method may just 'return'
 		});
 	}
 })
 .controller('MiniPlayerController', function($scope, database, player, $interval, $cordovaMedia) {
-	// Create the method that controls the playing of the podcast
 	$scope.playing = false;
 	var firstLaunch = true;
 	var mediaSource, media, progressSaver;
@@ -226,6 +226,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		if(index != 0 && !forcedPlay) return; // Don't play if already begun
 		player.playIndexInPlaylist(index);
 	}
+	$scope.playNextInPlaylist = player.playNextInPlaylist;
 	
 	player.playWithUrl = function(podcastUrl) {
 		// Stop saving progress for previous thing (if any)
@@ -331,12 +332,6 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	});
 })
 .controller('PlaylistController', function($scope, player, database) {
-	// Get data from database
-	database.getPlaylistPodcasts(function(podcasts) {
-		$scope.podcasts = podcasts;
-		$scope.$apply();
-	});
-	
 	$scope.clearPlaylist = function() {
 		database.clearPlaylist(function() {
 			$scope.podcasts = [];
@@ -344,6 +339,20 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			$scope.$apply();
 		});
 	}
+	
+	player.updatePlaylist = function() {
+		// In here, update $scope.podcasts and also the current playing index and then
+		// apply scope and highlight the playing index
+		database.getPlaylistPodcasts(function(podcasts) {
+			$scope.podcasts = podcasts;
+			if(player.playingIndex != null) {
+				podcasts[player.playingIndex]['class'] = 'active';
+			}
+			$scope.$apply();
+		});
+	}
+	
+	player.updatePlaylist();
 })
 .run(function() {
 	var hammerjs = new Hammer($('body')[0]);

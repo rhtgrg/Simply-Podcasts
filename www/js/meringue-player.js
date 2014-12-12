@@ -5,10 +5,12 @@ angular.module('meringue')
 		playIndexInPlaylist: function() { /*stub*/ },
 		playNextInPlaylist: function() { /*stub*/ },
 		playWithUrl: function() { /*stub*/ },
+		updatePlaylist: function() { /*stub*/ },
 		updatePlayingIndex: function(index) {
 			playerService.playingIndex = index;
 			database.setPreference('currentIndexInPlaylist', index, function() {
 				console.log("Updated playing index in playlist");
+				playerService.updatePlaylist();
 			});
 		}
 	}
