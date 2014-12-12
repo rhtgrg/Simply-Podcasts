@@ -1,10 +1,11 @@
 // http://docs.phonegap.com/en/2.1.0/cordova_storage_storage.md.html#openDatabase
 // http://stackoverflow.com/questions/16286605/initialize-angularjs-service-with-asynchronous-data
 angular.module('meringue', ['ngRoute', 'ngCordova'])
-.controller('NavBarController', function($scope) {
+.controller('NavBarController', function($scope, $location) {
 	$scope.chooseNavButton = function(index) {
-		$('#navbar btn').removeClass('btn-primary').addClass('btn-default');
-		$('#navbar btn').eq(index).removeClass('btn-default').addClass('btn-primary');
+		$('#navbar .btn').removeClass('btn-primary').addClass('btn-default');
+		$('#navbar .btn').eq(index).removeClass('btn-default').addClass('btn-primary');
+		$location.path($('#navbar .btn').eq(index).attr('data-href'));
 	}
 })
 .controller('SearchController', function($scope, $http, $location, database) {
@@ -153,6 +154,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 						podcastDetails['filepath'] = filePath;
 						$scope.podcasts[$scope.podcasts.indexOf(podcastDetails)] = podcastDetails;
 						console.log("DB updated");
+						$scope.$apply();
 					});
 				}, function(err) {
 					console.log("Error downloading file: ");
@@ -223,6 +225,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 			} else {
 				// In here, we are probably done with the playlist, so hide the mini player
 				$('#plist-mini-player').addClass('hide');
+				$cordovaMedia.release(media);
 			}
 		});
 	}

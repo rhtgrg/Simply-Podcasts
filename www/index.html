@@ -15,9 +15,9 @@
 		<div id="meringue-app">
 			<div ng-controller="NavBarController" id="navbar">
 				<div class="btn-group btn-group-justified" role="group">
-					<a type="button" class="btn btn-default" href="#search"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search</a>
-					<a type="button" class="btn btn-default" href="#collections"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> Catalog</a>
-					<a type="button" class="btn btn-default" href="#playlist"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Playlist</a>
+					<a ng-click="chooseNavButton(0)" type="button" class="btn btn-default" data-href="/search"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search</a>
+					<a ng-click="chooseNavButton(1)" type="button" class="btn btn-default" data-href="/collections"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> Catalog</a>
+					<a ng-click="chooseNavButton(2)" type="button" class="btn btn-default" data-href="/playlist"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Playlist</a>
 				</div>
 			</div>
 			<div ng-view  class="container-fluid">
