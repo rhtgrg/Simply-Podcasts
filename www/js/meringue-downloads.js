@@ -16,7 +16,7 @@ angular.module('meringue')
 		downloadOrDelete: function(collectionUrl, podcastDetails) {
 			if(podcastDetails.filepath != null) {
 				// The file has already been downloaded, delete it
-				downService.deleteFile(podcastDetails);
+				downService.deleteFile(collectionUrl, podcastDetails);
 			} else {
 				// Download the file
 				downService.beginDownload(collectionUrl, podcastDetails);
@@ -30,6 +30,7 @@ angular.module('meringue')
 			if(!downService.inProgressPodcasts.hasOwnProperty(collectionUrl)) {
 				downService.inProgressPodcasts[collectionUrl] = {};
 			}
+			podcastDetails['downloadProgress'] = 0;
 			downService.inProgressPodcasts[collectionUrl][podcastDetails.url] = podcastDetails;
 			// Continue to download the file
 			console.log("Download started with URL:" + fileUrl);
@@ -47,7 +48,7 @@ angular.module('meringue')
 			console.log("File successfully downloaded, updating DB");
 			database.updatePodcastFileLocation(fileUrl, filePath, function() {
 				podcastDetails['filepath'] = filePath;
-				inProgressPodcasts[collectionUrl][podcastDetails.url] = podcastDetails;
+				downService.inProgressPodcasts[collectionUrl][podcastDetails.url] = podcastDetails;
 			});
 		},
 		progressCallback: function(collectionUrl, podcastDetails, progress) {
@@ -60,12 +61,14 @@ angular.module('meringue')
 			console.log("Error downloading file: ");
 			console.log(err);
 		},
-		deleteFile: function(podcastDetails) {
+		deleteFile: function(collectionUrl, podcastDetails) {
 			if(confirm("Are you sure?")) {
 				resolveLocalFileSystemURL(podcastDetails.filepath, function(file) {
 					// Substring to remove preceding 'file://'
 					$cordovaFile.removeFile(file.nativeURL.substr(7)).then(function(result) {
 						database.erasePodcastFile(podcastDetails.url, function() {
+							podcastDetails['filepath'] = null;
+							downService.inProgressPodcasts[collectionUrl][podcastDetails.url] = podcastDetails;
 							console.log("File successfully erased");
 						});
 					}, function(err) {
