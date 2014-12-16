@@ -1,21 +1,19 @@
 // http://docs.phonegap.com/en/2.1.0/cordova_storage_storage.md.html#openDatabase
 // http://stackoverflow.com/questions/16286605/initialize-angularjs-service-with-asynchronous-data
 angular.module('meringue', ['ngRoute', 'ngCordova'])
-.controller('NavBarController', function($scope, $location, $window) {
-	var hash = $window.location.hash.substr(1);
-	$('#navbar .btn').removeClass('btn-primary').addClass('btn-default');
-	if(/(^\/$|^\/collection)/.test(hash)) {
-		$('#navbar .btn').eq(1).removeClass('btn-default').addClass('btn-primary');
-	} else if(/(^\/search)/.test(hash)) {
-		$('#navbar .btn').eq(0).removeClass('btn-default').addClass('btn-primary');
-	} else if(/(^\/playlist)/.test(hash)) {
-		$('#navbar .btn').eq(2).removeClass('btn-default').addClass('btn-primary');
-	}
-	$scope.chooseNavButton = function(index) {
+.controller('NavBarController', function($rootScope, $location, $window) {
+	$rootScope.$on('$locationChangeSuccess', function(event){
+		var hash = $window.location.hash.substr(1);
+		if(hash == '') hash = '/'; // Set hash to root if absent
 		$('#navbar .btn').removeClass('btn-primary').addClass('btn-default');
-		$('#navbar .btn').eq(index).removeClass('btn-default').addClass('btn-primary');
-		$location.path($('#navbar .btn').eq(index).attr('data-href'));
-	}
+		if(/(^\/$|^\/collection)/.test(hash)) {
+			$('#navbar .btn').eq(1).removeClass('btn-default').addClass('btn-primary');
+		} else if(/(^\/search)/.test(hash)) {
+			$('#navbar .btn').eq(0).removeClass('btn-default').addClass('btn-primary');
+		} else if(/(^\/playlist)/.test(hash)) {
+			$('#navbar .btn').eq(2).removeClass('btn-default').addClass('btn-primary');
+		}
+	});
 })
 .controller('SearchController', function($scope, $http, $location, database) {
 	$scope.searchTerm = "";
@@ -185,11 +183,26 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	}
 	
 	$scope.addToPlaylist = function(podcastUrl, position) {
-		// TODO: Support the position in the playlist
-		database.addToPlaylist(podcastUrl, function() {
-			player.playNextInPlaylist(false);
-			player.updatePlaylist(); // Doing this here because above method may just 'return'
-		});
+		// TODO: Code reuse and brevity
+		if(player.playingIndex == null || position == 'last') {
+			database.addToPlaylist(podcastUrl, function() {
+				player.playNextInPlaylist(false);
+				player.updatePlaylist(); // Doing this here because above method may just 'return'
+			});
+		}
+		switch(position) {
+			case 'next':				
+				database.addToPlaylistAfterIndex(player.playingIndex, podcastUrl, function() {
+					player.updatePlaylist(); // Doing this here because above method may just 'return'
+				});
+				break;
+			case 'now':
+				database.addToPlaylistAfterIndex(player.playingIndex, podcastUrl, function() {
+					player.playNextInPlaylist(true);
+					player.updatePlaylist(); // Doing this here because above method may just 'return'
+				});
+				break;
+		}
 	}
 })
 .controller('MiniPlayerController', function($scope, database, player, $interval, $cordovaMedia) {

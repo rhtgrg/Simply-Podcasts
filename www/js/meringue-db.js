@@ -162,6 +162,13 @@ angular.module('meringue')
 				databaseService.errorCallback, callback);
 			});
 		},
+		addToPlaylistAfterIndex: function(index, podcastUrl, callback) {
+			databaseService.db.transaction(function(tx) {
+				tx.executeSql('UPDATE PODCASTS SET in_playlist = in_playlist+1 WHERE in_playlist > ?', [index]);
+				tx.executeSql('UPDATE PODCASTS SET in_playlist = ? WHERE url = ?', [index+1, podcastUrl]);
+			},
+			databaseService.errorCallback, callback);
+		},
 		clearPlaylist: function(callback) {
 			databaseService.db.transaction(function(tx) {
 				tx.executeSql('UPDATE PODCASTS SET in_playlist = ?', [null]);
