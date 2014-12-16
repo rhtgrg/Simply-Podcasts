@@ -64,6 +64,7 @@ C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\meringue-bootstrap.
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\meringue-db.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\meringue-downloads.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\meringue-player.js \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\meringue-playlist.txt \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\meringue.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\npm.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib\angular-route.js \

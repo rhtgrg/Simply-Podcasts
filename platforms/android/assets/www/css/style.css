@@ -81,6 +81,10 @@ body {
       border-bottom: 1px solid #cccccc; }
       #plist-mini-player #mini-player-controls #slider-container .slider.slider-horizontal {
         height: 100%; }
+  #plist-mini-player #mini-player-extras {
+    display: none; }
+    #plist-mini-player #mini-player-extras textarea {
+      height: 180px; }
   #plist-mini-player .name {
     height: 20px;
     line-height: 20px; }

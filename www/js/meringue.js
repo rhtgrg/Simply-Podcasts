@@ -146,12 +146,11 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	
 	// Returns the latest filepath
 	$scope.getFilePath = function(podcastDetails) {
-		var filePath = podcastDetails.filepath;
 		var downloadDetails = downloads.getDownloadingPodcastDetails(collectionUrl, podcastDetails.url);
 		if(downloadDetails != null) {
-			filePath = downloadDetails.filePath;
+			return downloadDetails.filepath;
 		}
-		return filePath;
+		return podcastDetails.filepath;
 	}
 	
 	// Function to favorite or unfavorite a podcast
@@ -305,6 +304,10 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 				});
 			}, 1000);
 		}
+	}
+	
+	$scope.slideToggleExtras = function() {
+		$('#mini-player-extras').slideToggle(100);
 	}
 
 	// If we were playing something last time, try to resume it
