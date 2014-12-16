@@ -107,7 +107,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		$scope.$apply();
 	});
 })
-.controller('PodcastsController', function($scope, $routeParams, $cordovaFile, player, database) {
+.controller('PodcastsController', function($scope, $routeParams, $cordovaFile, player, downloads, database) {
 	var collectionUrl = decodeURIComponent($routeParams.collectionUrl);
 
 	// Get data from database
@@ -123,62 +123,25 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	
 	// Function to download a file given the URL (currently only MP3)
 	$scope.downloadOrDeleteFile = function(podcastDetails) {
-		if(podcastDetails.filepath != null) {
-			// The file has already been downloaded, delete it
-			if(confirm("Are you sure?")) {
-				resolveLocalFileSystemURL(podcastDetails.filepath, function(file) {
-					// Substring to remove preceding 'file://'
-					$cordovaFile.removeFile(file.nativeURL.substr(7)).then(function(result) {
-						database.erasePodcastFile(podcastDetails.url, function() {
-							console.log("File successfully erased");
-						});
-					}, function(err) {
-						console.log("There was an error deleting the file "+podcastDetails.filepath);
-						console.log(err);
-					});
-				});
-			}
-			return;
-		}
-		
-		// The file hasn't been downloaded, download it
-		var fileUrl = podcastDetails.url;
-		var fileName = /.*[/](.+.mp3)$/.exec(fileUrl)[1];
-		var filePath = 'cdvfile://localhost/persistent/' + fileName;
-		console.log("Download started with URL:" + fileUrl);
-		$cordovaFile
-			.downloadFile(fileUrl, filePath, true)
-			.then(function(result) {
-					console.log("File successfully downloaded, updating DB");
-					database.updatePodcastFileLocation(fileUrl, filePath, function() {
-						podcastDetails['filepath'] = filePath;
-						$scope.podcasts[$scope.podcasts.indexOf(podcastDetails)] = podcastDetails;
-						console.log("DB updated");
-						$scope.$apply();
-					});
-				}, function(err) {
-					console.log("Error downloading file: ");
-					console.log(err);
-				}, function (progress) {
-					// constant progress updates
-					if (progress.lengthComputable) {
-						podcastDetails['downloadProgress'] = (progress.loaded / progress.total) * 100;
-						$scope.podcasts[$scope.podcasts.indexOf(podcastDetails)] = podcastDetails;
-					}
-				});
+		downloads.downloadOrDelete(collectionUrl, podcastDetails);
 	}
 	
 	// Returns the current download progress, or the play progress
 	$scope.getProgressValue = function(podcastDetails) {
-		if(typeof podcastDetails.downloadProgress == 'undefined') {
-			var interim = (podcastDetails.position/podcastDetails.duration) * 100;
-			if(isNaN(interim)) {
-				return 0;
-			} else {
-				return interim;
+		var progress = 0;
+		// First try to get progress from downloads
+		var downloadDetails = downloads.getDownloadingPodcastDetails(collectionUrl, podcastDetails.url);
+		if(downloadDetails != null) {
+			progress = downloadDetails.downloadProgress;
+		} else {
+			// If not in downloads, get the current listen progress
+			progress = (podcastDetails.position/podcastDetails.duration) * 100;
+			// If no progress, return zero
+			if(isNaN(progress)) {
+				progress = 0;
 			}
 		}
-		return podcastDetails.downloadProgress;
+		return progress;
 	}
 	
 	// Function to favorite or unfavorite a podcast

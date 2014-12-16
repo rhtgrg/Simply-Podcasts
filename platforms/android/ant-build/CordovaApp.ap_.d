@@ -47,7 +47,6 @@ C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\bootstrap-slider.c
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\bootstrap-theme.css \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\bootstrap-theme.css.map \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\bootstrap-theme.min.css \
-C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\bootstrap.css \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\bootstrap.css.map \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\bootstrap.min.css \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\css\style.css \
@@ -63,6 +62,7 @@ C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\index.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\lib \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\meringue-bootstrap.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\meringue-db.js \
+C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\meringue-downloads.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\meringue-player.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\meringue.js \
 C:\Users\RG\Desktop\meringue\platforms\android\assets\www\js\npm.js \
