@@ -47,7 +47,7 @@ angular.module('meringue')
 			console.log("File successfully downloaded, updating DB");
 			database.updatePodcastFileLocation(fileUrl, filePath, function() {
 				podcastDetails['filepath'] = filePath;
-				delete inProgressPodcasts[collectionUrl][podcastDetails.url];
+				inProgressPodcasts[collectionUrl][podcastDetails.url] = podcastDetails;
 			});
 		},
 		progressCallback: function(collectionUrl, podcastDetails, progress) {

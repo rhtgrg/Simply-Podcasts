@@ -36,18 +36,18 @@ angular.module('meringue')
 			$cordovaFile
 				.downloadFile(fileUrl, filePath, true)
 				.then(function(result) {
-					downService.endDownload(collectionUrl, podcastDetails, result);
+					downService.endDownload(collectionUrl, podcastDetails, fileUrl, filePath, result);
 				},
 				downService.errorCallback,
 				function(progress) {
 					downService.progressCallback(collectionUrl, podcastDetails, progress);
 				});
 		},
-		endDownload: function(collectionUrl, podcastDetails, result) {
+		endDownload: function(collectionUrl, podcastDetails, fileUrl, filePath, result) {
 			console.log("File successfully downloaded, updating DB");
 			database.updatePodcastFileLocation(fileUrl, filePath, function() {
 				podcastDetails['filepath'] = filePath;
-				delete inProgressPodcasts[collectionUrl][podcastDetails.url];
+				inProgressPodcasts[collectionUrl][podcastDetails.url] = podcastDetails;
 			});
 		},
 		progressCallback: function(collectionUrl, podcastDetails, progress) {

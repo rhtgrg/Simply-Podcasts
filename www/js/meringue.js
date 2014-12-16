@@ -144,6 +144,16 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		return progress;
 	}
 	
+	// Returns the latest filepath
+	$scope.getFilePath = function(podcastDetails) {
+		var filePath = podcastDetails.filepath;
+		var downloadDetails = downloads.getDownloadingPodcastDetails(collectionUrl, podcastDetails.url);
+		if(downloadDetails != null) {
+			filePath = downloadDetails.filePath;
+		}
+		return filePath;
+	}
+	
 	// Function to favorite or unfavorite a podcast
 	$scope.favoriteUnfavorite = function(podcastDetails) {
 		var commonCallback = function(favorited) {
