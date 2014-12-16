@@ -68,6 +68,7 @@ angular.module('meringue')
 					$cordovaFile.removeFile(file.nativeURL.substr(7)).then(function(result) {
 						database.erasePodcastFile(podcastDetails.url, function() {
 							podcastDetails['filepath'] = null;
+							podcastDetails['downloadProgress'] = 0;
 							downService.inProgressPodcasts[collectionUrl][podcastDetails.url] = podcastDetails;
 							console.log("File successfully erased");
 						});
