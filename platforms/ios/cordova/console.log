@@ -1,0 +1,74 @@
+2014-12-16 10:39:21.189 Meringue[3013:39180] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/rgarg/Library/Developer/CoreSimulator/Devices/E6B314D4-5099-4101-B07C-9E8BBF10B79A/data/Containers/Data/Application/6AA9E792-4585-4615-BC2F-2F867AB0298A/Library/Cookies/Cookies.binarycookies
+2014-12-16 10:39:22.249 Meringue[3013:39180] Apache Cordova native platform version 3.7.0 is starting.
+2014-12-16 10:39:22.249 Meringue[3013:39180] Multi-tasking -> Device: YES, App: YES
+2014-12-16 10:39:22.282 Meringue[3013:39180] Unlimited access to network resources
+2014-12-16 10:39:22.303 Meringue[3013:39180] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in the Cordova config.xml file
+
+2014-12-16 10:39:24.322 Meringue[3013:39180] [CDVTimer][file] 63.188016ms
+2014-12-16 10:39:24.322 Meringue[3013:39180] [CDVTimer][TotalPluginStartup] 63.399017ms
+2014-12-16 10:39:26.724 Meringue[3013:39180] Resetting plugins due to page load.
+2014-12-16 10:39:27.515 Meringue[3013:39180] Finished load of: file:///Users/rgarg/Library/Developer/CoreSimulator/Devices/E6B314D4-5099-4101-B07C-9E8BBF10B79A/data/Containers/Bundle/Application/FE84A1E9-E9BE-4AA6-89A4-C41D8E290BE7/Meringue.app/www/index.html
+2014-12-16 10:39:55.899 Meringue[3013:39180] THREAD WARNING: ['Media'] took '24.822021' ms. Plugin should use a background thread.
+2014-12-16 10:39:55.917 Meringue[3013:39180] Will use resource 'http://api.spreaker.com/download/episode/4822420.mp3' from the Internet.
+2014-12-16 10:40:02.968 Meringue[3013:39180] Playing audio sample 'http://api.spreaker.com/download/episode/4822420.mp3'
+2014-12-16 10:40:04.213 Meringue[3013:39180] THREAD WARNING: ['Media'] took '8296.751953' ms. Plugin should use a background thread.
+2014-12-16 10:40:04.316 Meringue[3013:39180] THREAD WARNING: ['Media'] took '39.571777' ms. Plugin should use a background thread.
+2014-12-16 10:40:04.401 Meringue[3013:39180] THREAD WARNING: ['Media'] took '36.534668' ms. Plugin should use a background thread.
+2014-12-16 10:40:04.409 Meringue[3013:39180] Will use resource 'http://api.spreaker.com/download/episode/4822420.mp3' from the Internet.
+2014-12-16 10:40:09.393 Meringue[3013:39180] Playing audio sample 'http://api.spreaker.com/download/episode/4822420.mp3'
+2014-12-16 10:40:09.404 Meringue[3013:39180] THREAD WARNING: ['Media'] took '4994.530273' ms. Plugin should use a background thread.
+2014-12-16 10:40:09.532 Meringue[3013:39180] THREAD WARNING: ['Media'] took '22.946045' ms. Plugin should use a background thread.
+2014-12-16 10:45:52.584 Meringue[3013:39180] THREAD WARNING: ['Media'] took '14.128906' ms. Plugin should use a background thread.
+2014-12-16 10:45:53.676 Meringue[3013:39180] Finished playing audio sample 'http://api.spreaker.com/download/episode/4822420.mp3'
+2014-12-16 10:45:58.800 Meringue[3013:39180] Finished playing audio sample 'http://api.spreaker.com/download/episode/4822420.mp3'
+2014-12-16 10:45:59.607 Meringue[3013:39180] Media with id 76eccbd4-8c0b-aa43-8501-98981867bd28 released
+2014-12-16 10:46:23.125 Meringue[3229:42673] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/rgarg/Library/Developer/CoreSimulator/Devices/E6B314D4-5099-4101-B07C-9E8BBF10B79A/data/Containers/Data/Application/C9A7F33F-8141-48FE-8C5C-8CFF67CC71CE/Library/Cookies/Cookies.binarycookies
+2014-12-16 10:46:23.443 Meringue[3229:42673] Apache Cordova native platform version 3.7.0 is starting.
+2014-12-16 10:46:23.444 Meringue[3229:42673] Multi-tasking -> Device: YES, App: YES
+2014-12-16 10:46:23.446 Meringue[3229:42673] Unlimited access to network resources
+2014-12-16 10:46:23.466 Meringue[3229:42673] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in the Cordova config.xml file
+
+2014-12-16 10:46:23.991 Meringue[3229:42673] [CDVTimer][file] 62.278986ms
+2014-12-16 10:46:23.992 Meringue[3229:42673] [CDVTimer][TotalPluginStartup] 62.491000ms
+2014-12-16 10:46:25.007 Meringue[3229:42673] Resetting plugins due to page load.
+2014-12-16 10:46:25.415 Meringue[3229:42673] Finished load of: file:///Users/rgarg/Library/Developer/CoreSimulator/Devices/E6B314D4-5099-4101-B07C-9E8BBF10B79A/data/Containers/Bundle/Application/26CC2D15-E81F-4489-8F93-501D2027FB97/Meringue.app/www/index.html
+2014-12-16 10:46:25.562 Meringue[3229:42673] Will use resource 'http://api.spreaker.com/download/episode/4822420.mp3' from the Internet.
+2014-12-16 10:46:33.060 Meringue[3229:42673] Playing audio sample 'http://api.spreaker.com/download/episode/4822420.mp3'
+2014-12-16 10:46:33.080 Meringue[3229:42673] THREAD WARNING: ['Media'] took '7517.801025' ms. Plugin should use a background thread.
+2014-12-16 10:46:33.196 Meringue[3229:42673] THREAD WARNING: ['Media'] took '20.641846' ms. Plugin should use a background thread.
+2014-12-16 10:47:10.077 Meringue[3229:42673] THREAD WARNING: ['FileTransfer'] took '25.010010' ms. Plugin should use a background thread.
+2014-12-16 10:47:12.533 Meringue[3229:42878] File Transfer Finished with response code 200
+2014-12-16 10:47:35.712 Meringue[3229:42673] Paused playing audio sample 'http://api.spreaker.com/download/episode/4822420.mp3'
+2014-12-16 10:47:35.761 Meringue[3229:42673] THREAD WARNING: ['Media'] took '48.762939' ms. Plugin should use a background thread.
+2014-12-16 10:47:36.428 Meringue[3229:42673] Media with id 041b936c-c5c4-7c87-e4c7-dddf384eb24c released
+2014-12-16 10:47:46.708 Meringue[3229:42673] Playing audio sample 'cdvfile://localhost/persistent/meringue/serial-s01-e01_0.mp3'
+2014-12-16 10:47:46.741 Meringue[3229:42673] THREAD WARNING: ['Media'] took '267.329102' ms. Plugin should use a background thread.
+2014-12-16 10:47:46.788 Meringue[3229:42673] THREAD WARNING: ['Media'] took '13.507080' ms. Plugin should use a background thread.
+2014-12-16 10:47:49.458 Meringue[3229:42673] Media with id b4d655b6-e08c-7932-269b-0f5106a3e5ee released
+2014-12-16 10:47:49.695 Meringue[3229:42673] Playing audio sample 'cdvfile://localhost/persistent/meringue/serial-s01-e01_0.mp3'
+2014-12-16 10:47:49.702 Meringue[3229:42673] THREAD WARNING: ['Media'] took '238.954102' ms. Plugin should use a background thread.
+2014-12-16 10:47:49.830 Meringue[3229:42673] THREAD WARNING: ['Media'] took '20.122070' ms. Plugin should use a background thread.
+2014-12-16 10:47:57.341 Meringue[3229:42673] Paused playing audio sample 'cdvfile://localhost/persistent/meringue/serial-s01-e01_0.mp3'
+2014-12-16 10:47:57.388 Meringue[3229:42673] THREAD WARNING: ['Media'] took '47.074951' ms. Plugin should use a background thread.
+2014-12-16 10:47:57.447 Meringue[3229:42673] Media with id cb3a8fe4-3a59-7b52-5ee3-4c1c217da5f4 released
+2014-12-16 10:47:57.458 Meringue[3229:42673] THREAD WARNING: ['Media'] took '11.302002' ms. Plugin should use a background thread.
+2014-12-16 10:48:10.564 Meringue[3229:42673] Playing audio sample 'cdvfile://localhost/persistent/meringue/serial-s01-e01_0.mp3'
+2014-12-16 10:48:10.565 Meringue[3229:42673] THREAD WARNING: ['Media'] took '139.936035' ms. Plugin should use a background thread.
+2014-12-16 10:48:10.693 Meringue[3229:42673] THREAD WARNING: ['Media'] took '20.564209' ms. Plugin should use a background thread.
+2014-12-16 10:48:13.874 Meringue[3229:42673] THREAD WARNING: ['Media'] took '22.448975' ms. Plugin should use a background thread.
+2014-12-16 10:48:15.755 Meringue[3229:42673] THREAD WARNING: ['Media'] took '15.491943' ms. Plugin should use a background thread.
+2014-12-16 10:48:18.557 Meringue[3229:42673] Paused playing audio sample 'cdvfile://localhost/persistent/meringue/serial-s01-e01_0.mp3'
+2014-12-16 10:48:18.599 Meringue[3229:42673] THREAD WARNING: ['Media'] took '42.386963' ms. Plugin should use a background thread.
+2014-12-16 10:48:18.617 Meringue[3229:42673] Media with id 07727257-2727-ea3b-09c4-677b3864583d released

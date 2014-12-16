@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=medium-dpi" />
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-slider.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+        <title>Meringue</title>
+    </head>
+    <body>
+		<div id="meringue-app">
+			<div ng-controller="NavBarController" id="navbar">
+				<div class="btn-group btn-group-justified" role="group">
+					<a type="button" class="btn btn-default" ng-href="#/search"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search</a>
+					<a type="button" class="btn btn-default" ng-href="#/collections"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> Catalog</a>
+					<a type="button" class="btn btn-default" ng-href="#/playlist"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Playlist</a>
+				</div>
+			</div>
+			<div ng-view  class="container-fluid">
+			</div>
+			<div ng-controller="MiniPlayerController" id="plist-mini-player" class="hide">
+				<div ng-click="slideToggleExtras()" class="btn btn-default width-100">
+					<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+				</div>
+				<div id="mini-player-controls" class="width-100">
+					<a class="btn btn-default btn-fave col-xs-1">
+						<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+					</a>
+					<a  ng-click="pausePlay()" class="btn btn-default btn-play-pause col-xs-2">
+						<span class="glyphicon glyphicon-{{playing | playButton}}" aria-hidden="true"></span>
+					</a>
+					<div id="slider-container" class="col-xs-7">
+						<input class="width-100" id="slider-handle" data-slider-id="mini-player-slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="0.01" data-slider-value="0"/>
+					</div>
+					<a class="btn btn-default btn-prev col-xs-1 disabled">
+						<span class="glyphicon glyphicon-backward" aria-hidden="true"></span>
+					</a>
+					<a class="btn btn-default btn-next col-xs-1" ng-click="playNextInPlaylist()">
+						<span class="glyphicon glyphicon-forward" aria-hidden="true"></span>
+					</a>
+				</div>
+				<div class="col-xs-12">
+					<h5>{{podcastDetails.name}}</h5>
+				</div>
+				<div id="mini-player-extras">
+					<!-- Details -->
+					<!-- Notes -->
+					<textarea class="col-xs-12" ng-model="podcastDetails.notes" placeholder="You may type notes about this podcast episode here"></textarea>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/lib/jquery.min.js"></script>
+		<script type="text/javascript" src="js/lib/hammer.min.js"></script>
+		<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/lib/bootstrap-slider.js"></script>
+		<script type="text/javascript" src="js/lib/angular.min.js"></script>
+		<script type="text/javascript" src="js/lib/angular-route.js"></script>
+		<script type="text/javascript" src="js/lib/ng-cordova.min.js"></script>
+		<script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/meringue.js"></script>
+		<script type="text/javascript" src="js/meringue-db.js"></script>
+		<script type="text/javascript" src="js/meringue-downloads.js"></script>
+		<script type="text/javascript" src="js/meringue-player.js"></script>
+		<script type="text/javascript" src="js/meringue-bootstrap.js"></script>
+    </body>
+</html>

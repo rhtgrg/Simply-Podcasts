@@ -1,0 +1,95 @@
+body {
+  background: url(../img/tex.png); }
+
+.width-100 {
+  width: 100%; }
+
+.container-fluid {
+  padding-top: 50px;
+  margin-bottom: 80px; }
+
+#navbar {
+  width: 100%;
+  position: fixed;
+  z-index: 10; }
+  #navbar .btn-group {
+    width: 100%; }
+    #navbar .btn-group > .btn {
+      height: 50px;
+      border-radius: 0; }
+
+#podcasts, #collections, #search, #playlist {
+  padding-right: 0px; }
+
+#playlist .list-group-item.active a {
+  color: white; }
+
+#podcasts .list-group-item, #collections .list-group-item, #search .list-group-item {
+  margin: 20px 0;
+  border-radius: 5px;
+  padding: 0px; }
+  #podcasts .list-group-item .description, #collections .list-group-item .description, #search .list-group-item .description {
+    padding: 10px; }
+  #podcasts .list-group-item .progress, #collections .list-group-item .progress, #search .list-group-item .progress {
+    height: 5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-bottom: 0; }
+  #podcasts .list-group-item .btn-group .btn, #collections .list-group-item .btn-group .btn, #search .list-group-item .btn-group .btn {
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0; }
+    #podcasts .list-group-item .btn-group .btn:last-child:not(:first-child), #collections .list-group-item .btn-group .btn:last-child:not(:first-child), #search .list-group-item .btn-group .btn:last-child:not(:first-child) {
+      border-radius: 0;
+      margin-left: 0; }
+    #podcasts .list-group-item .btn-group .btn:first-child:not(:last-child):not(.dropdown-toggle), #collections .list-group-item .btn-group .btn:first-child:not(:last-child):not(.dropdown-toggle), #search .list-group-item .btn-group .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+      border-radius: 0;
+      border-right: 1px solid #dddddd; }
+  #podcasts .list-group-item .btn-group .dropdown.col-xs-6, #collections .list-group-item .btn-group .dropdown.col-xs-6, #search .list-group-item .btn-group .dropdown.col-xs-6 {
+    padding: 0px; }
+    #podcasts .list-group-item .btn-group .dropdown.col-xs-6 .btn, #collections .list-group-item .btn-group .dropdown.col-xs-6 .btn, #search .list-group-item .btn-group .dropdown.col-xs-6 .btn {
+      border-right: 0;
+      width: 100%; }
+
+#search .list-group-item {
+  border-radius: 5px; }
+  #search .list-group-item .desc-container {
+    width: 100%;
+    background-size: 100%;
+    position: relative;
+    height: 150px; }
+  #search .list-group-item .description {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    background: white;
+    opacity: 0.85; }
+
+#player-slider .slider-selection {
+  background: #bababa; }
+
+#plist-mini-player {
+  background: white;
+  width: 100%;
+  z-index: 10;
+  position: fixed;
+  bottom: 0px; }
+  #plist-mini-player .btn {
+    padding: 6px 6px;
+    border-radius: 0; }
+  #plist-mini-player #mini-player-controls {
+    padding: 0px; }
+    #plist-mini-player #mini-player-controls .btn {
+      border-top: 0; }
+    #plist-mini-player #mini-player-controls #slider-container {
+      height: 33px;
+      border-bottom: 1px solid #cccccc; }
+      #plist-mini-player #mini-player-controls #slider-container .slider.slider-horizontal {
+        height: 100%; }
+  #plist-mini-player #mini-player-extras {
+    display: none; }
+    #plist-mini-player #mini-player-extras textarea {
+      height: 180px; }
+  #plist-mini-player .name {
+    height: 20px;
+    line-height: 20px; }
