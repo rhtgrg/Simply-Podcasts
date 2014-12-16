@@ -10,7 +10,14 @@
 		</div>
 		<div class="btn-group width-100" role="group">
 			<a class="btn btn-default col-xs-6" ng-click="downloadOrDeleteFile(podcast)">{{getFilePath(podcast) | podcastFilter:'actionText'}}</a>
-			<a class="btn {{getFilePath(podcast) | podcastFilter:'btnClass'}} col-xs-6" ng-click="addToPlaylist(podcast.url)">{{getFilePath(podcast) | podcastFilter:'playText'}}</a>
+			<div class="dropdown col-xs-6">
+				<a class="btn {{getFilePath(podcast) | podcastFilter:'btnClass'}}" data-toggle="dropdown">{{getFilePath(podcast) | podcastFilter:'playText'}} <span class="caret"></span></a>
+				<ul class="dropdown-menu" role="menu">
+					<li><a ng-click="addToPlaylist(podcast.url)">{{getFilePath(podcast) | podcastFilter:'playText'}} Now</a></li>
+					<li><a ng-click="addToPlaylist(podcast.url)">{{getFilePath(podcast) | podcastFilter:'playText'}} Next</a></li>
+					<li><a ng-click="addToPlaylist(podcast.url)">{{getFilePath(podcast) | podcastFilter:'playText'}} Last</a></li>
+				</ul>
+			</div>
 		</div>
 		<div class="progress">
 			<div class="progress-bar width-100" role="progressbar" style="width: {{getProgressValue(podcast)}}%;">

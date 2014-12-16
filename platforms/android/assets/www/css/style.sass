@@ -42,19 +42,25 @@ body
 			border-top-right-radius: 0
 			margin-bottom: 0
 
-		.btn-group>.btn
-			border-radius: 0
-			border-left: 0
-			border-right: 0
+		.btn-group
+			.btn
+				border-radius: 0
+				border-left: 0
+				border-right: 0
 
-			&:last-child:not(:first-child)
-				border-radius: 0
-				margin-left: 0
-			
-			&:first-child:not(:last-child):not(.dropdown-toggle)
-				border-radius: 0
-				border-right: 1px solid #ddd
+				&:last-child:not(:first-child)
+					border-radius: 0
+					margin-left: 0
 				
+				&:first-child:not(:last-child):not(.dropdown-toggle)
+					border-radius: 0
+					border-right: 1px solid #ddd
+			.dropdown.col-xs-6
+				padding: 0px
+				.btn
+					border-right: 0
+					width: 100%
+			
 #search
 	.list-group-item
 		border-radius: 5px

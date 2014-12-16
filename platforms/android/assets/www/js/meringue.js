@@ -307,7 +307,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 	}
 	
 	$scope.slideToggleExtras = function() {
-		$('#mini-player-extras').slideToggle();
+		$('#mini-player-extras').slideToggle(100);
 	}
 
 	// If we were playing something last time, try to resume it

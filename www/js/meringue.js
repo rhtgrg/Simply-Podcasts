@@ -1,7 +1,16 @@
 // http://docs.phonegap.com/en/2.1.0/cordova_storage_storage.md.html#openDatabase
 // http://stackoverflow.com/questions/16286605/initialize-angularjs-service-with-asynchronous-data
 angular.module('meringue', ['ngRoute', 'ngCordova'])
-.controller('NavBarController', function($scope, $location) {
+.controller('NavBarController', function($scope, $location, $window) {
+	var hash = $window.location.hash.substr(1);
+	$('#navbar .btn').removeClass('btn-primary').addClass('btn-default');
+	if(/(^\/$|^\/collection)/.test(hash)) {
+		$('#navbar .btn').eq(1).removeClass('btn-default').addClass('btn-primary');
+	} else if(/(^\/search)/.test(hash)) {
+		$('#navbar .btn').eq(0).removeClass('btn-default').addClass('btn-primary');
+	} else if(/(^\/playlist)/.test(hash)) {
+		$('#navbar .btn').eq(2).removeClass('btn-default').addClass('btn-primary');
+	}
 	$scope.chooseNavButton = function(index) {
 		$('#navbar .btn').removeClass('btn-primary').addClass('btn-default');
 		$('#navbar .btn').eq(index).removeClass('btn-default').addClass('btn-primary');
@@ -175,7 +184,8 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		return ((favorited == null || favorited == 'false') ? "star-empty" : "star");
 	}
 	
-	$scope.addToPlaylist = function(podcastUrl) {
+	$scope.addToPlaylist = function(podcastUrl, position) {
+		// TODO: Support the position in the playlist
 		database.addToPlaylist(podcastUrl, function() {
 			player.playNextInPlaylist(false);
 			player.updatePlaylist(); // Doing this here because above method may just 'return'

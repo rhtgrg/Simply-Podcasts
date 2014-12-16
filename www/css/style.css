@@ -35,16 +35,21 @@ body {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     margin-bottom: 0; }
-  #podcasts .list-group-item .btn-group > .btn, #collections .list-group-item .btn-group > .btn, #search .list-group-item .btn-group > .btn {
+  #podcasts .list-group-item .btn-group .btn, #collections .list-group-item .btn-group .btn, #search .list-group-item .btn-group .btn {
     border-radius: 0;
     border-left: 0;
     border-right: 0; }
-    #podcasts .list-group-item .btn-group > .btn:last-child:not(:first-child), #collections .list-group-item .btn-group > .btn:last-child:not(:first-child), #search .list-group-item .btn-group > .btn:last-child:not(:first-child) {
+    #podcasts .list-group-item .btn-group .btn:last-child:not(:first-child), #collections .list-group-item .btn-group .btn:last-child:not(:first-child), #search .list-group-item .btn-group .btn:last-child:not(:first-child) {
       border-radius: 0;
       margin-left: 0; }
-    #podcasts .list-group-item .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle), #collections .list-group-item .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle), #search .list-group-item .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    #podcasts .list-group-item .btn-group .btn:first-child:not(:last-child):not(.dropdown-toggle), #collections .list-group-item .btn-group .btn:first-child:not(:last-child):not(.dropdown-toggle), #search .list-group-item .btn-group .btn:first-child:not(:last-child):not(.dropdown-toggle) {
       border-radius: 0;
       border-right: 1px solid #dddddd; }
+  #podcasts .list-group-item .btn-group .dropdown.col-xs-6, #collections .list-group-item .btn-group .dropdown.col-xs-6, #search .list-group-item .btn-group .dropdown.col-xs-6 {
+    padding: 0px; }
+    #podcasts .list-group-item .btn-group .dropdown.col-xs-6 .btn, #collections .list-group-item .btn-group .dropdown.col-xs-6 .btn, #search .list-group-item .btn-group .dropdown.col-xs-6 .btn {
+      border-right: 0;
+      width: 100%; }
 
 #search .list-group-item {
   border-radius: 5px; }
