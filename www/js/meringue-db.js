@@ -122,11 +122,10 @@ angular.module('meringue')
 				}, databaseService.errorCallback);
 			}, databaseService.errorCallback);		
 		},
-		updatePodcastPlayPosition: function(podcastUrl, duration, position, notes, callback) {
+		updatePodcastPlayPosition: function(podcastUrl, duration, position, notes) {
 			databaseService.db.transaction(function(tx) {
 				tx.executeSql('UPDATE PODCASTS SET duration = ?, position = ?, notes = ? WHERE url = ?', [duration, position, notes, podcastUrl]);
-			},
-			databaseService.errorCallback, callback);
+			}, databaseService.errorCallback);
 		},
 		updatePodcastFileLocation: function(podcastUrl, filePath, callback) {
 			databaseService.db.transaction(function(tx) {

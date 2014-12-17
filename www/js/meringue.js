@@ -322,9 +322,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 		var periodicallySaveProgress = function() {
 			progressSaver = $interval(function() {
 				$cordovaMedia.getCurrentPosition(media).then(function(position) {
-					database.updatePodcastPlayPosition($scope.podcastDetails.url, $cordovaMedia.getDuration(media), position, $scope.podcastDetails.notes, function(){
-						// Do nothing on successful progress saving
-					});
+					database.updatePodcastPlayPosition($scope.podcastDetails.url, $cordovaMedia.getDuration(media), position, $scope.podcastDetails.notes);
 				});
 			}, 1000);
 		}
