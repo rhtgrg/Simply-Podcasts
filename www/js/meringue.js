@@ -189,6 +189,7 @@ angular.module('meringue', ['ngRoute', 'ngCordova'])
 				player.playNextInPlaylist(false);
 				player.updatePlaylist(); // Doing this here because above method may just 'return'
 			});
+			return;
 		}
 		switch(position) {
 			case 'next':				
